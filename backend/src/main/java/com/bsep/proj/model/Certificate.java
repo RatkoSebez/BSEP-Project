@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.security.PublicKey;
 import java.time.LocalDate;
 
 @Entity
@@ -22,20 +23,16 @@ public class Certificate {
     private Long idOfCertificateOwner;
     private LocalDate timeOfPublishing;
     private LocalDate validUntil;
-    private String publicKey;
+    private PublicKey publicKey;
     private Boolean isWithdrawn;
-    private String digitalSignature;
+    private byte[] digitalSignature;
 
-    public Certificate(Long idOfPublisher, Long idOfCertificateOwner, LocalDate timeOfPublishing, LocalDate validUntil, String publicKey) {
-        this.idOfCertificatePublisher = idOfPublisher;
+    public Certificate(Long idOfCertificatePublisher, Long idOfCertificateOwner, LocalDate timeOfPublishing, LocalDate validUntil, PublicKey publicKey, Boolean isWithdrawn) {
+        this.idOfCertificatePublisher = idOfCertificatePublisher;
         this.idOfCertificateOwner = idOfCertificateOwner;
         this.timeOfPublishing = timeOfPublishing;
         this.validUntil = validUntil;
         this.publicKey = publicKey;
+        this.isWithdrawn = isWithdrawn;
     }
-
-    //    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        encoder.encode(this.id.toString() + this.idOfPublisher.toString()
-//                + this.idOfCertificateOwner.toString() + this.timeOfPublishing.toString()
-//                + this.validUntil.toString() + this.publicKey);
 }

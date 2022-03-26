@@ -8,12 +8,10 @@ import java.security.*;
 public class KeyGeneratorService {
     public KeyPair generateKeys() throws NoSuchAlgorithmException, NoSuchProviderException {
         // https://docs.oracle.com/javase/tutorial/security/apisign/step2.html
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
         keyGen.initialize(1024, random);
         KeyPair pair = keyGen.generateKeyPair();
-//        PrivateKey priv = pair.getPrivate();
-//        PublicKey pub = pair.getPublic();
         return pair;
     }
 }

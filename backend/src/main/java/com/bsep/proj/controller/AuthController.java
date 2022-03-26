@@ -2,6 +2,7 @@ package com.bsep.proj.controller;
 
 import com.bsep.proj.model.User;
 import com.bsep.proj.service.KeyGeneratorService;
+import com.bsep.proj.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,7 @@ import java.security.NoSuchProviderException;
 public class AuthController {
     private AuthenticationManager authenticationManager;
     private KeyGeneratorService keyGeneratorService;
+    private UserService userService;
 
 //    @GetMapping("/loginn")
 //    public String login(){
@@ -35,14 +37,7 @@ public class AuthController {
 
     @GetMapping("/loggedUser")
     public String loggedUser(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (principal instanceof User) {
-            username = ((User)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        return username;
+        return userService.getLoggedInUserUsername();
     }
 
     @GetMapping("test")

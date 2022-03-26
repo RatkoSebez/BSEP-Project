@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +28,10 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private UserRole role;
+    private Long certificateAuthorityParentId;
+    private PublicKey publicKey;
+    private PrivateKey privateKey;
+//    private Certificate certificate;
 
     public User(String username, String password, UserRole role) {
         this.username = username;

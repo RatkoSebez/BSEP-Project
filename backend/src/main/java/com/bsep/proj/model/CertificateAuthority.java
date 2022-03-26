@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.List;
 
 @Entity
@@ -20,13 +22,8 @@ public class CertificateAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-//    private Certificate certificateOfCA;
-//    private List<Certificate> publishedCertificates;
-    private String privateKey;
+//    private Certificate certificate;
+    private PublicKey publicKey;
+    private PrivateKey privateKey;
     private Long certificateAuthorityParentId;
-
-//    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        encoder.encode(this.id.toString() + this.idOfPublisher.toString()
-//                + this.idOfCertificateOwner.toString() + this.timeOfPublishing.toString()
-//                + this.validUntil.toString() + this.publicKey);
 }
