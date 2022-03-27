@@ -28,7 +28,6 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private UserRole role;
-    private Long certificateAuthorityParentId;
     private PublicKey publicKey;
     private PrivateKey privateKey;
 //    private Certificate certificate;

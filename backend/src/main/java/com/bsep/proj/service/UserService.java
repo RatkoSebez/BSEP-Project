@@ -21,7 +21,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, username)));
     }
 
-    public String getLoggedInUserUsername(){
+    public static String getLoggedInUserUsername(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
         if (principal instanceof User) {
@@ -32,7 +32,12 @@ public class UserService implements UserDetailsService {
         return username;
     }
 
-    public User getLoggedInUser(){
+    public static Long getLoggedInUserId(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getId();
+    }
+
+    public static User getLoggedInUser(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

@@ -2,8 +2,10 @@ package com.bsep.proj.service;
 
 import com.bsep.proj.model.Certificate;
 import com.bsep.proj.model.CertificateAuthority;
+import com.bsep.proj.model.User;
 import com.bsep.proj.repository.CertificateAuthorityRepository;
 import com.bsep.proj.repository.CertificateRepository;
+import com.bsep.proj.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,14 @@ import java.security.*;
 import java.time.LocalDate;
 
 import static com.bsep.proj.service.CryptographyFunctionsService.*;
+import static com.bsep.proj.service.UserService.*;
 
 @AllArgsConstructor
 @Service
 public class CertificateService {
     private CertificateRepository certificateRepository;
     private CertificateAuthorityRepository certificateAuthorityRepository;
+    private UserRepository userRepository;
 
     public void createCertificateAndCertificateAuthority(Long idOfCertificatePublisher) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         // this two lines creates initial objects, they will get more data in this function
@@ -32,13 +36,13 @@ public class CertificateService {
         CertificateAuthority parentCertificateAuthority;
         String decryptedCertificateData;
         if(isRootCa) {
-            certificate.setDigitalSignature(encrypt(certificateAuthority.getPrivateKey(), hashedCertificateData));
-            decryptedCertificateData = decrypt(certificateAuthority.getPublicKey(), certificate.getDigitalSignature());
+            certificate.setDigitalSignature(encrypt(getPrivateKey(certificateAuthority), hashedCertificateData));
+            decryptedCertificateData = decrypt(getPublicKey(certificateAuthority), certificate.getDigitalSignature());
         }
         else{
             parentCertificateAuthority = certificateAuthorityRepository.getById(idOfCertificatePublisher);
-            certificate.setDigitalSignature(encrypt(parentCertificateAuthority.getPrivateKey() ,hashedCertificateData));
-            decryptedCertificateData = decrypt(parentCertificateAuthority.getPublicKey(), certificate.getDigitalSignature());
+            certificate.setDigitalSignature(encrypt(getPrivateKey(parentCertificateAuthority), hashedCertificateData));
+            decryptedCertificateData = decrypt(getPublicKey(parentCertificateAuthority), certificate.getDigitalSignature());
         }
         certificateAuthority.setCertificate(certificate);
 
@@ -57,9 +61,11 @@ public class CertificateService {
     private CertificateAuthority createCertificateAuthority(Long idOfCertificatePublisher) throws NoSuchAlgorithmException, NoSuchProviderException {
         CertificateAuthority certificateAuthority = new CertificateAuthority();
         KeyPair keyPair = generateKeys();
-        certificateAuthority.setPublicKey(keyPair.getPublic());
-        certificateAuthority.setPrivateKey(keyPair.getPrivate());
         certificateAuthority.setCertificateAuthorityParentId(idOfCertificatePublisher); // parent is null = CA is root
+        certificateAuthority.setOwnerId(UserService.getLoggedInUserId());
+        certificateAuthorityRepository.save(certificateAuthority);
+        setPublicKey(certificateAuthority, keyPair.getPublic());
+        setPrivateKey(certificateAuthority, keyPair.getPrivate());;
         // I save it because id will be assigned, and I need its id
         return certificateAuthorityRepository.save(certificateAuthority);
     }
@@ -71,8 +77,30 @@ public class CertificateService {
         certificate.setTimeOfPublishing(LocalDate.now());
         certificate.setValidUntil(LocalDate.now().plusMonths(6));
         certificate.setIsWithdrawn(false);
-        certificate.setPublicKey(certificateAuthority.getPublicKey());
+        certificate.setPublicKey(getPublicKey(certificateAuthority));
         // I save it because id will be assigned, and I need its id
         return certificateRepository.save(certificate);
+    }
+
+    private PrivateKey getPrivateKey(CertificateAuthority certificateAuthority){
+        User user = userRepository.getById(certificateAuthority.getOwnerId());
+        return user.getPrivateKey();
+    }
+
+    private PublicKey getPublicKey(CertificateAuthority certificateAuthority){
+        User user = userRepository.getById(certificateAuthority.getOwnerId());
+        return user.getPublicKey();
+    }
+
+    private void setPrivateKey(CertificateAuthority certificateAuthority, PrivateKey privateKey){
+        User user = userRepository.getById(certificateAuthority.getOwnerId());
+        user.setPrivateKey(privateKey);
+        userRepository.save(user);
+    }
+
+    private void setPublicKey(CertificateAuthority certificateAuthority, PublicKey publicKey){
+        User user = userRepository.getById(certificateAuthority.getOwnerId());
+        user.setPublicKey(publicKey);
+        userRepository.save(user);
     }
 }
