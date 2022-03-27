@@ -25,50 +25,62 @@ public class CertificateService {
     private CertificateAuthorityRepository certificateAuthorityRepository;
 
     public void createSelfSignedCertificate() throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        // pravim root CA i dodeljujem mu kljuceve
-        KeyPair keyPair = keyGeneratorService.generateKeys();
-        PublicKey publicKey = keyPair.getPublic();
-        PrivateKey privateKey = keyPair.getPrivate();
-        CertificateAuthority certificateAuthority = new CertificateAuthority();
-        certificateAuthority.setPublicKey(publicKey);
-        certificateAuthority.setPrivateKey(privateKey);
-        // parent je null i to znaci da je on root, u suprotnom nije root
-        certificateAuthority.setCertificateAuthorityParentId(null);
-        // cuvam ga da bih mu se dodelio kljuc
-        certificateAuthorityRepository.save(certificateAuthority);
+        // this two lines creates initial objects, they will get more data in this function
+        CertificateAuthority certificateAuthority = createCertificateAuthority();
+        Certificate certificate = createCertificate(certificateAuthority);
 
-        // pravim sertifikat
+        String hashedCertificateData = hashCertificateData(certificate);
+
+        certificate.setDigitalSignature(encrypt(certificateAuthority ,hashedCertificateData));
+
+        String decryptedCertificateData = decrypt(certificateAuthority, certificate.getDigitalSignature());
+
+        System.out.println("Hashed dataaaa: " + hashedCertificateData);
+        System.out.println("Encrypted data: " + certificate.getDigitalSignature());
+        System.out.println("Decrypted data: " + decryptedCertificateData);
+
+        certificateAuthorityRepository.save(certificateAuthority);
+        certificateRepository.save(certificate);
+    }
+
+    private CertificateAuthority createCertificateAuthority() throws NoSuchAlgorithmException, NoSuchProviderException {
+        CertificateAuthority certificateAuthority = new CertificateAuthority();
+        KeyPair keyPair = keyGeneratorService.generateKeys();
+        certificateAuthority.setPublicKey(keyPair.getPublic());
+        certificateAuthority.setPrivateKey(keyPair.getPrivate());
+        certificateAuthority.setCertificateAuthorityParentId(null); // parent is null = CA is root
+        // I save it because id will be assigned, and I need its id
+        return certificateAuthorityRepository.save(certificateAuthority);
+    }
+
+    private Certificate createCertificate(CertificateAuthority certificateAuthority){
         Certificate certificate = new Certificate();
         certificate.setIdOfCertificatePublisher(certificateAuthority.getId());
         certificate.setIdOfCertificateOwner(certificateAuthority.getId());
         certificate.setTimeOfPublishing(LocalDate.now());
-        certificate.setValidUntil(LocalDate.now().plusMonths(1));
+        certificate.setValidUntil(LocalDate.now().plusMonths(6));
         certificate.setIsWithdrawn(false);
-        certificate.setPublicKey(publicKey);
-        // moram sacuvati da bi se dodelio id
-        certificateRepository.save(certificate);
+        certificate.setPublicKey(certificateAuthority.getPublicKey());
+        // I save it because id will be assigned, and I need its id
+        return certificateRepository.save(certificate);
+    }
 
-        // hesovao sam sve podatke unutar sertifikata
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private String hashCertificateData(Certificate certificate){
         String certificateData = certificate.getId().toString() + certificate.getIdOfCertificatePublisher().toString()
                 + certificate.getIdOfCertificateOwner() + certificate.getTimeOfPublishing()
                 + certificate.getValidUntil() + certificate.getIsWithdrawn() + certificate.getPublicKey();
-        String hashedCertificateData = encoder.encode(certificateData);
-        // enkripcija
+        return new BCryptPasswordEncoder().encode(certificateData);
+    }
+
+    private byte[] encrypt(CertificateAuthority certificateAuthority, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, certificateAuthority.getPrivateKey());
-        byte[] encryptedCertificateData = cipher.doFinal(hashedCertificateData.getBytes(StandardCharsets.UTF_8));
-        certificate.setDigitalSignature(encryptedCertificateData);
+        return cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+    }
 
-        // dekripcija
+    private String decrypt(CertificateAuthority certificateAuthority, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, certificateAuthority.getPublicKey());
-        byte[] decryptedCertificateData = cipher.doFinal(encryptedCertificateData);
-
-        System.out.println("Hashed data: " + hashedCertificateData);
-        System.out.println("Encrypted data: " + encryptedCertificateData);
-        System.out.println("Decrypted data: " + Arrays.toString(decryptedCertificateData));
-
-        certificateAuthorityRepository.save(certificateAuthority);
-        certificateRepository.save(certificate);
+        return new String(cipher.doFinal(data), StandardCharsets.UTF_8);
     }
 }
