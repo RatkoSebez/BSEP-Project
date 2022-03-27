@@ -3,8 +3,10 @@ package com.bsep.proj.controller;
 import com.bsep.proj.dto.UserDto;
 import com.bsep.proj.model.User;
 import com.bsep.proj.repository.UserRepository;
+import com.bsep.proj.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +27,18 @@ import java.util.List;
 @RequestMapping(value = "/api/user")
 public class UserController {
     private UserRepository userRepository;
+    private UserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "getAll")
     public List<UserDto> getAllUsers(){
         return UserDto.convertToUserDtoList(userRepository.findAll());
+    }
+
+    @GetMapping("/loggedInUser")
+    public UserDto loggedInUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof String) return null;
+        return UserDto.convertToUserDto((User)principal);
     }
 }

@@ -27,8 +27,8 @@ public class ProjApplication implements ApplicationRunner {
 		String password = "$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra";
 		userRepository.save(new User("user", password, UserRole.ROLE_CLIENT, "user", "user"));
 		userRepository.save(new User("admin", password, UserRole.ROLE_ADMIN, "admin", "admin"));
-		String firstNames[] = {"Marko", "Jovan", "Milica", "Jovana", "Teodora", "Anja", "Stefan"};
-		String lastNames[] = {"Marković", "Jovanović", "Pejović", "Mitrović", "Jović", "Vlahović"};
+		String firstNames[] = {"Marko", "Jovan", "Milica", "Jovana", "Teodora", "Anja", "Stefan", "Radašin", "Milašin", "Dragiša", "Ćićo", "Mićko", "Slavoljub", "Miroljub"};
+		String lastNames[] = {"Marković", "Jovanović", "Pejović", "Mitrović", "Jović", "Vlahović", "Srećković", "Zec", "Zlatanović", "Zarković", "Kićanski"};
 		for(int i=0; i<100; i++){
 			int firstNameIndex = ThreadLocalRandom.current().nextInt(0, firstNames.length-1);
 			int lastNameIndex = ThreadLocalRandom.current().nextInt(0, lastNames.length-1);

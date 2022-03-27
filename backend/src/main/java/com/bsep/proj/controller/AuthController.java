@@ -30,11 +30,6 @@ public class AuthController {
 //        return auth.getPrincipal().toString();
 //    }
 
-    @GetMapping("/loggedUser")
-    public String loggedUser(){
-        return userService.getLoggedInUserUsername();
-    }
-
     @GetMapping("test")
     public String test() throws NoSuchAlgorithmException, NoSuchProviderException {
         return keyGeneratorService.generateKeys().getPrivate().toString();

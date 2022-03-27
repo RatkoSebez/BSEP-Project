@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/model/User';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -8,23 +11,40 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  public username = ""
-  public password = ""
+  public isLoggedIn = false;
+  public isAdmin = false;
+  public user!: User;
+  // public username = ""
+  // public password = ""
 
   constructor(private loginService: LoginService, private http: HttpClient) { }
-
-  ngOnInit(): void {}
+  
+  ngOnInit(): void {
+    this.http.get<any>('api/user/loggedInUser/').subscribe(
+      response => {
+        if(response != null) this.isLoggedIn = true;
+        this.user = response;
+        if(this.user.role == "ROLE_ADMIN") this.isAdmin = true;
+        //console.log(response)
+      }
+    );
+  }
 
   yo(){
     // this.loginService.getLoggedUser().subscribe(data => {
     //   console.log(data)
     // })
-    this.http.get("http://localhost:8080/auth/loggedUser").subscribe(data => {
-      console.log(data)
-    })
-  }
+    // this.http.get("http://localhost:8080/auth/loggedUser").subscribe(data => {
+    //   console.log(data)
+    // })
+    //console.log(this.loginService.getLoggedUser())
+    //console.log(this.loggedInUser$)
+    this.http.get<any>('api/user/getAll/').subscribe(
+      response => {
+        console.log(response)
+      }
+    );
 
-  login(){
-    //this.loginService.login(this.username, this.password)
+    
   }
 }

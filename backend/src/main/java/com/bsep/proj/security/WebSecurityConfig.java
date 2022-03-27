@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
-//                .defaultSuccessUrl("http://localhost:4200", true)
-                .defaultSuccessUrl("http://localhost:8080/auth/test", true)
+                .defaultSuccessUrl("http://localhost:4200", true)
+//                .defaultSuccessUrl("http://localhost:8080/auth/test", true)
                 .and()
                 .logout().logoutSuccessHandler(new LogoutSuccessHandler() {
                     @Override

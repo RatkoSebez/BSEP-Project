@@ -9,13 +9,17 @@ import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LoginService } from './services/login.service';
+import { UsersComponent } from './components/users/users.component';
+import { CertificatesComponent } from './components/certificates/certificates.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     MenuComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    UsersComponent,
+    CertificatesComponent
   ],
   imports: [
     BrowserModule,
