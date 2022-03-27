@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.List;
@@ -22,7 +19,9 @@ public class CertificateAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-//    private Certificate certificate;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "certificate_id", referencedColumnName = "id")
+    private Certificate certificate;
     private PublicKey publicKey;
     private PrivateKey privateKey;
     private Long certificateAuthorityParentId;
