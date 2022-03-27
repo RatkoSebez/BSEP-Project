@@ -28,14 +28,19 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private UserRole role;
+    private String firstName;
+    private String lastName;
     private PublicKey publicKey;
     private PrivateKey privateKey;
 //    private Certificate certificate;
 
-    public User(String username, String password, UserRole role) {
+
+    public User(String username, String password, UserRole role, String firstName, String lastName) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @Override
