@@ -22,15 +22,15 @@ public class CryptographyFunctionsService {
         return keyGen.generateKeyPair();
     }
 
-    public static byte[] encrypt(CertificateAuthority certificateAuthority, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public static byte[] encrypt(Key key, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.ENCRYPT_MODE, certificateAuthority.getPrivateKey());
+        cipher.init(Cipher.ENCRYPT_MODE, key);
         return cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static String decrypt(CertificateAuthority certificateAuthority, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public static String decrypt(Key key, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.DECRYPT_MODE, certificateAuthority.getPublicKey());
+        cipher.init(Cipher.DECRYPT_MODE, key);
         return new String(cipher.doFinal(data), StandardCharsets.UTF_8);
     }
 

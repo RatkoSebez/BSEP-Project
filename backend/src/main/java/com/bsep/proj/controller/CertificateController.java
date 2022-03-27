@@ -23,15 +23,15 @@ public class CertificateController {
 
     @PostMapping(path = "self")
     public void createSelfSignedCertificate() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-        certificateService.createSelfSignedCertificate();
+        //certificateService.createSelfSignedCertificate();
     }
 
     @PostMapping(path = "ca")
     public void createCaCertificate() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
         //certificateService.createSelfSignedCertificate();
         //certificateService.createCaCertificate(3l);
-        certificateService.createCertificate(null);
-        certificateService.createCertificate(3l);
+        certificateService.createCertificateAndCertificateAuthority(null);
+        certificateService.createCertificateAndCertificateAuthority(3l);
     }
 
     @GetMapping()
