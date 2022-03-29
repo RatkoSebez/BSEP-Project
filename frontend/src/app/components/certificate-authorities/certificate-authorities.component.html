@@ -1,0 +1,21 @@
+<app-menu></app-menu>
+
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <table class="table table-secondary table-striped w-auto mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">CA id</th>
+                    <th scope="col">Owner id</th>
+                    <th scope="col">Parent CA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ca of certificateAuthorities">
+                    <th scope="row">{{ ca.id }}</th>
+                    <td>{{ ca.ownerId }}</td>
+                    <td>{{ ca.certificateAuthorityParentId }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

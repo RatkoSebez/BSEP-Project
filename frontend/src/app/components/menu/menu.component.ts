@@ -11,8 +11,8 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  public isLoggedIn = false;
-  public isAdmin = false;
+  public isLoggedIn = true;
+  public isAdmin = true;
   public user!: User;
   // public username = ""
   // public password = ""
@@ -22,7 +22,10 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     this.http.get<any>('api/user/loggedInUser/').subscribe(
       response => {
-        if(response != null) this.isLoggedIn = true;
+        if(response == null){
+          this.isLoggedIn = false, this.isAdmin = false;
+          return
+        }
         this.user = response;
         if(this.user.role == "ROLE_ADMIN") this.isAdmin = true;
         //console.log(response)

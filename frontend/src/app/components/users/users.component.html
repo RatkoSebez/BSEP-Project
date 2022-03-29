@@ -1,8 +1,12 @@
 <app-menu></app-menu>
 
 <div class="row justify-content-center">
-    <div class="col-auto">
-        <table class="table table-secondary table-striped w-auto">
+    <div class="col-auto mt-3">
+        <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#createRootCaModal">Create
+            root CA</button>
+        <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#createCaModal">Create
+            CA</button>
+        <table class="table table-secondary table-striped w-auto mt-3">
             <thead>
                 <tr>
                     <th scope="col">User id</th>
@@ -24,4 +28,44 @@
         </table>
     </div>
 </div>
-    
+
+<!-- Create root ca modal -->
+<div class="modal fade" id="createRootCaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create root certificate authority</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input class="form-control mb-4" type="text" placeholder="owner id" name="owner id" [(ngModel)]="ownerId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" (click)="createRootCa()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create ca modal -->
+<div class="modal fade" id="createCaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create certificate authority</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input class="form-control mb-4" type="text" placeholder="owner id" name="owner id"
+                    [(ngModel)]="ownerId">
+                <input class="form-control mb-4" type="text" placeholder="idOfCertificatePublisher"
+                    name="idOfCertificatePublisher" [(ngModel)]="idOfCertificatePublisher">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" (click)="createCa()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

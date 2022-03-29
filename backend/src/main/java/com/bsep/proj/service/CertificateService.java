@@ -1,5 +1,6 @@
 package com.bsep.proj.service;
 
+import com.bsep.proj.dto.CreateCaRequestDto;
 import com.bsep.proj.model.Certificate;
 import com.bsep.proj.model.CertificateAuthority;
 import com.bsep.proj.model.User;
@@ -16,7 +17,6 @@ import java.security.*;
 import java.time.LocalDate;
 
 import static com.bsep.proj.service.CryptographyFunctionsService.*;
-import static com.bsep.proj.service.UserService.*;
 
 @AllArgsConstructor
 @Service
@@ -25,22 +25,27 @@ public class CertificateService {
     private CertificateAuthorityRepository certificateAuthorityRepository;
     private UserRepository userRepository;
 
-    public void createCertificateAndCertificateAuthority(Long idOfCertificatePublisher) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        // this two lines creates initial objects, they will get more data in this function
-        CertificateAuthority certificateAuthority = createCertificateAuthority(idOfCertificatePublisher);
-        Certificate certificate = createCertificateAndCertificateAuthority(certificateAuthority, certificateAuthority.getId());
+    public void createCertificate(CreateCaRequestDto request) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        CertificateAuthority certificateAuthority = createCertificateAuthority(request.getIdOfCertificatePublisher(), request.getOwnerId());
+        Certificate certificate = createCertificate(certificateAuthority);
 
-        String hashedCertificateData = hashCertificateData(certificate);
+        String hashedCertificateData;
 
-        boolean isRootCa = idOfCertificatePublisher == null;
+        boolean isRootCa = request.getIdOfCertificatePublisher() == null;
         CertificateAuthority parentCertificateAuthority;
         String decryptedCertificateData;
         if(isRootCa) {
+            certificate.setIdOfCertificatePublisher(certificateAuthority.getId());
+            // this is last place I set something in certificate, so this is time to do hash
+            hashedCertificateData = hashCertificateData(certificate);
             certificate.setDigitalSignature(encrypt(getPrivateKey(certificateAuthority), hashedCertificateData));
             decryptedCertificateData = decrypt(getPublicKey(certificateAuthority), certificate.getDigitalSignature());
         }
         else{
-            parentCertificateAuthority = certificateAuthorityRepository.getById(idOfCertificatePublisher);
+            parentCertificateAuthority = certificateAuthorityRepository.getById(request.getIdOfCertificatePublisher());
+            certificate.setIdOfCertificatePublisher(parentCertificateAuthority.getId());
+            // this is last place I set something in certificate, so this is time to do hash
+            hashedCertificateData = hashCertificateData(certificate);
             certificate.setDigitalSignature(encrypt(getPrivateKey(parentCertificateAuthority), hashedCertificateData));
             decryptedCertificateData = decrypt(getPublicKey(parentCertificateAuthority), certificate.getDigitalSignature());
         }
@@ -58,11 +63,11 @@ public class CertificateService {
         certificateRepository.save(certificate);
     }
 
-    private CertificateAuthority createCertificateAuthority(Long idOfCertificatePublisher) throws NoSuchAlgorithmException, NoSuchProviderException {
+    private CertificateAuthority createCertificateAuthority(Long idOfCertificatePublisher, Long ownerId) throws NoSuchAlgorithmException, NoSuchProviderException {
         CertificateAuthority certificateAuthority = new CertificateAuthority();
         KeyPair keyPair = generateKeys();
         certificateAuthority.setCertificateAuthorityParentId(idOfCertificatePublisher); // parent is null = CA is root
-        certificateAuthority.setOwnerId(UserService.getLoggedInUserId());
+        certificateAuthority.setOwnerId(ownerId);
         certificateAuthorityRepository.save(certificateAuthority);
         setPublicKey(certificateAuthority, keyPair.getPublic());
         setPrivateKey(certificateAuthority, keyPair.getPrivate());;
@@ -70,9 +75,8 @@ public class CertificateService {
         return certificateAuthorityRepository.save(certificateAuthority);
     }
 
-    private Certificate createCertificateAndCertificateAuthority(CertificateAuthority certificateAuthority, Long idOfCertificatePublisher){
+    private Certificate createCertificate(CertificateAuthority certificateAuthority){
         Certificate certificate = new Certificate();
-        certificate.setIdOfCertificatePublisher(idOfCertificatePublisher);
         certificate.setIdOfCertificateOwner(certificateAuthority.getId());
         certificate.setTimeOfPublishing(LocalDate.now());
         certificate.setValidUntil(LocalDate.now().plusMonths(6));

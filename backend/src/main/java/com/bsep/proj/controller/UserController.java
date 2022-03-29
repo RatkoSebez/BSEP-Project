@@ -27,7 +27,6 @@ import java.util.List;
 @RequestMapping(value = "/api/user")
 public class UserController {
     private UserRepository userRepository;
-    private UserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "getAll")

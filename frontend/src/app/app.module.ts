@@ -11,6 +11,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LoginService } from './services/login.service';
 import { UsersComponent } from './components/users/users.component';
 import { CertificatesComponent } from './components/certificates/certificates.component';
+import { CertificateAuthoritiesComponent } from './components/certificate-authorities/certificate-authorities.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CertificatesComponent } from './components/certificates/certificates.co
     MenuComponent,
     PageNotFoundComponent,
     UsersComponent,
-    CertificatesComponent
+    CertificatesComponent,
+    CertificateAuthoritiesComponent
   ],
   imports: [
     BrowserModule,

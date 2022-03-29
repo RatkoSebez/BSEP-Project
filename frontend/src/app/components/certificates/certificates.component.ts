@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./certificates.component.css']
 })
 export class CertificatesComponent implements OnInit {
+  certificates!: any[]
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.http.get<any>('api/certificate/getAllCertificates/').subscribe(
+      response => {
+        this.certificates = response
+      }
+    );
   }
 
 }

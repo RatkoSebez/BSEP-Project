@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
   users!: any[]
+  ownerId!: number
+  idOfCertificatePublisher!: number
 
   constructor(private http: HttpClient) { }
 
@@ -15,9 +17,21 @@ export class UsersComponent implements OnInit {
     this.http.get<any>('api/user/getAll/').subscribe(
       response => {
         this.users = response
-        console.log(response)
       }
     );
   }
 
+  createRootCa(){
+    this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: null, ownerId: this.ownerId}).subscribe(
+      response => {
+      }
+    );
+  }
+
+    createCa(){
+    this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: this.idOfCertificatePublisher, ownerId: this.ownerId}).subscribe(
+      response => {
+      }
+    );
+  }
 }
