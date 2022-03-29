@@ -14,7 +14,7 @@
                 <tr *ngFor="let ca of certificateAuthorities">
                     <th scope="row">{{ ca.id }}</th>
                     <td>{{ ca.ownerId }}</td>
-                    <td>{{ ca.certificateAuthorityParentId }}</td>
+                    <td>{{ (ca.certificateAuthorityParentId !== null) ? (ca.certificateAuthorityParentId) : "root" }}</td>
                 </tr>
             </tbody>
         </table>

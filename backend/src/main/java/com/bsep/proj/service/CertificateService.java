@@ -38,16 +38,16 @@ public class CertificateService {
             certificate.setIdOfCertificatePublisher(certificateAuthority.getId());
             // this is last place I set something in certificate, so this is time to do hash
             hashedCertificateData = hashCertificateData(certificate);
-            certificate.setDigitalSignature(encrypt(getPrivateKey(certificateAuthority), hashedCertificateData));
-            decryptedCertificateData = decrypt(getPublicKey(certificateAuthority), certificate.getDigitalSignature());
+            certificate.setDigitalSignature(encrypt(certificateAuthority.getPrivateKey(), hashedCertificateData));
+            decryptedCertificateData = decrypt(certificateAuthority.getPublicKey(), certificate.getDigitalSignature());
         }
         else{
             parentCertificateAuthority = certificateAuthorityRepository.getById(request.getIdOfCertificatePublisher());
             certificate.setIdOfCertificatePublisher(parentCertificateAuthority.getId());
             // this is last place I set something in certificate, so this is time to do hash
             hashedCertificateData = hashCertificateData(certificate);
-            certificate.setDigitalSignature(encrypt(getPrivateKey(parentCertificateAuthority), hashedCertificateData));
-            decryptedCertificateData = decrypt(getPublicKey(parentCertificateAuthority), certificate.getDigitalSignature());
+            certificate.setDigitalSignature(encrypt(parentCertificateAuthority.getPrivateKey(), hashedCertificateData));
+            decryptedCertificateData = decrypt(parentCertificateAuthority.getPublicKey(), certificate.getDigitalSignature());
         }
         certificateAuthority.setCertificate(certificate);
 
@@ -69,8 +69,8 @@ public class CertificateService {
         certificateAuthority.setCertificateAuthorityParentId(idOfCertificatePublisher); // parent is null = CA is root
         certificateAuthority.setOwnerId(ownerId);
         certificateAuthorityRepository.save(certificateAuthority);
-        setPublicKey(certificateAuthority, keyPair.getPublic());
-        setPrivateKey(certificateAuthority, keyPair.getPrivate());;
+        certificateAuthority.setPublicKey(keyPair.getPublic());
+        certificateAuthority.setPrivateKey(keyPair.getPrivate());
         // I save it because id will be assigned, and I need its id
         return certificateAuthorityRepository.save(certificateAuthority);
     }
@@ -81,30 +81,30 @@ public class CertificateService {
         certificate.setTimeOfPublishing(LocalDate.now());
         certificate.setValidUntil(LocalDate.now().plusMonths(6));
         certificate.setIsWithdrawn(false);
-        certificate.setPublicKey(getPublicKey(certificateAuthority));
+        certificate.setPublicKey(certificateAuthority.getPublicKey());
         // I save it because id will be assigned, and I need its id
         return certificateRepository.save(certificate);
     }
 
-    private PrivateKey getPrivateKey(CertificateAuthority certificateAuthority){
-        User user = userRepository.getById(certificateAuthority.getOwnerId());
-        return user.getPrivateKey();
-    }
-
-    private PublicKey getPublicKey(CertificateAuthority certificateAuthority){
-        User user = userRepository.getById(certificateAuthority.getOwnerId());
-        return user.getPublicKey();
-    }
-
-    private void setPrivateKey(CertificateAuthority certificateAuthority, PrivateKey privateKey){
-        User user = userRepository.getById(certificateAuthority.getOwnerId());
-        user.setPrivateKey(privateKey);
-        userRepository.save(user);
-    }
-
-    private void setPublicKey(CertificateAuthority certificateAuthority, PublicKey publicKey){
-        User user = userRepository.getById(certificateAuthority.getOwnerId());
-        user.setPublicKey(publicKey);
-        userRepository.save(user);
-    }
+//    private PrivateKey getPrivateKey(CertificateAuthority certificateAuthority){
+//        User user = userRepository.getById(certificateAuthority.getOwnerId());
+//        return user.getPrivateKey();
+//    }
+//
+//    private PublicKey getPublicKey(CertificateAuthority certificateAuthority){
+//        User user = userRepository.getById(certificateAuthority.getOwnerId());
+//        return user.getPublicKey();
+//    }
+//
+//    private void setPrivateKey(CertificateAuthority certificateAuthority, PrivateKey privateKey){
+//        User user = userRepository.getById(certificateAuthority.getOwnerId());
+//        user.setPrivateKey(privateKey);
+//        userRepository.save(user);
+//    }
+//
+//    private void setPublicKey(CertificateAuthority certificateAuthority, PublicKey publicKey){
+//        User user = userRepository.getById(certificateAuthority.getOwnerId());
+//        user.setPublicKey(publicKey);
+//        userRepository.save(user);
+//    }
 }

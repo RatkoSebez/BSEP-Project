@@ -30,10 +30,9 @@ public class User implements UserDetails {
     private UserRole role;
     private String firstName;
     private String lastName;
-    private PublicKey publicKey;
-    private PrivateKey privateKey;
-//    private Certificate certificate;
-
+    // PAZI: ako cuvas kljuceve u useru, onda on moze biti vezan samo za jedan ca ili sertifikat
+//    private PublicKey publicKey;
+//    private PrivateKey privateKey;
 
     public User(String username, String password, UserRole role, String firstName, String lastName) {
         this.username = username;

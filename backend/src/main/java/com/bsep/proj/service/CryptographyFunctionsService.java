@@ -19,7 +19,8 @@ public class CryptographyFunctionsService {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
         keyGen.initialize(1024, random);
-        return keyGen.generateKeyPair();
+        KeyPair keyPair = keyGen.generateKeyPair();
+        return keyPair;
     }
 
     public static byte[] encrypt(Key key, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {

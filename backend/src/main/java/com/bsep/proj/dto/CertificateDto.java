@@ -23,6 +23,7 @@ public class CertificateDto {
     private LocalDate validUntil;
     private Boolean isWithdrawn;
     private byte[] digitalSignature;
+//    private PublicKey publicKey;
 
     public static CertificateDto convertToCertificateDto(Certificate certificate){
         CertificateDto certificateDto = new CertificateDto();
@@ -33,6 +34,7 @@ public class CertificateDto {
         certificateDto.setValidUntil(certificate.getValidUntil());
         certificateDto.setIsWithdrawn(certificate.getIsWithdrawn());
         certificateDto.setDigitalSignature(certificate.getDigitalSignature());
+//        certificateDto.setPublicKey(certificate.getPublicKey());
         return certificateDto;
     }
 

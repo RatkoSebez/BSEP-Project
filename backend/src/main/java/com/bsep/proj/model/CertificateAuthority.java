@@ -26,8 +26,8 @@ public class CertificateAuthority {
     @JoinColumn(name = "certificate_id", referencedColumnName = "id")
     private Certificate certificate;
     private Long ownerId;
-    // private PublicKey publicKey;
-    // private PrivateKey privateKey;
+    private PublicKey publicKey;
+    private PrivateKey privateKey;
     // field is null if it is root CA, otherwise it has id of CA which signed it
     private Long certificateAuthorityParentId;
 }
