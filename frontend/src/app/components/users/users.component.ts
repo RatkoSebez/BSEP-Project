@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-users',
@@ -10,10 +11,23 @@ export class UsersComponent implements OnInit {
   users!: any[]
   ownerId!: number
   idOfCertificatePublisher!: number
+  user = new User('')
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.http.get<any>('api/user/loggedInUser/').subscribe(
+      response => {
+        this.user = response
+        console.log(this.user)
+        if(this.user.role == "ROLE_ADMIN"){
+          this.getAllUsers()
+        }
+      }
+    );
+  }
+
+  getAllUsers(){
     this.http.get<any>('api/user/getAll/').subscribe(
       response => {
         this.users = response

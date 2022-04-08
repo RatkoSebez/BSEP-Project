@@ -6,6 +6,7 @@ import com.bsep.proj.dto.CreateCaRequestDto;
 import com.bsep.proj.repository.CertificateAuthorityRepository;
 import com.bsep.proj.repository.CertificateRepository;
 import com.bsep.proj.service.CertificateService;
+import com.bsep.proj.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class CertificateController {
     private CertificateService certificateService;
     private CertificateRepository certificateRepository;
     private CertificateAuthorityRepository certificateAuthorityRepository;
+    private UserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(path = "createCertificateAuthority")
@@ -37,7 +39,6 @@ public class CertificateController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "getAllCertificateAuthorities")
     public List<CertificateAuthorityDto> getAllCertificateAuthorities(){
-        // vratio je kad sam izbacio osetljiva polja, uradi to i sa certifikatom
         return CertificateAuthorityDto.convertToCertificateAuthorityDtoList(certificateAuthorityRepository.findAll());
     }
 
@@ -46,4 +47,16 @@ public class CertificateController {
     public List<CertificateDto> getAllCertificates(){
         return CertificateDto.convertToCertificateDtoList(certificateRepository.findAll());
     }
+
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @GetMapping(path = "getUserCertificateAuthorities")
+    public List<CertificateAuthorityDto> getUserCertificateAuthorities(){
+        return CertificateAuthorityDto.convertToCertificateAuthorityDtoList(userService.getUserCertificateAuthorities());
+    }
+
+//    @PreAuthorize("hasRole('ROLE_CLIENT')")
+//    @GetMapping(path = "getUserCertificates")
+//    public List<CertificateDto> getUsersCertificates(){
+//        return CertificateDto.convertToCertificateDtoList(userService.getUserCertificates());
+//    }
 }

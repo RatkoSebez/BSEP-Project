@@ -22,12 +22,14 @@ public class CertificateAuthorityDto {
     private Long id;
     private Long ownerId;
     private Long certificateAuthorityParentId;
+    private Boolean isEndEntityCertificate;
 
     public static CertificateAuthorityDto convertToCertificateAuthorityDto(CertificateAuthority certificateAuthority){
         CertificateAuthorityDto certificateAuthorityDto = new CertificateAuthorityDto();
         certificateAuthorityDto.setId(certificateAuthority.getId());
         certificateAuthorityDto.setOwnerId(certificateAuthority.getOwnerId());
         certificateAuthorityDto.setCertificateAuthorityParentId(certificateAuthority.getCertificateAuthorityParentId());
+        certificateAuthorityDto.setIsEndEntityCertificate(certificateAuthority.getIsEndEntityCertificate());
         return certificateAuthorityDto;
     }
 

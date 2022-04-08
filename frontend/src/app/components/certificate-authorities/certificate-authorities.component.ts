@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-certificate-authorities',
@@ -8,11 +9,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CertificateAuthoritiesComponent implements OnInit {
   certificateAuthorities!: any[]
+  user!: User;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.http.get<any>('api/user/loggedInUser/').subscribe(
+      response => {
+        this.user = response
+        if(this.user.role == "ROLE_ADMIN"){
+          this.getAllCertificateAuthorities()
+        }
+        if(this.user.role == "ROLE_CLIENT"){
+          this.getUsersCertificateAuthorities()
+        }
+      }
+    );
+  }
+
+  getAllCertificateAuthorities(){
     this.http.get<any>('api/certificate/getAllCertificateAuthorities/').subscribe(
+      response => {
+        this.certificateAuthorities = response
+      }
+    );
+  }
+
+  getUsersCertificateAuthorities(){
+    this.http.get<any>('api/certificate/getUserCertificateAuthorities/').subscribe(
       response => {
         this.certificateAuthorities = response
       }

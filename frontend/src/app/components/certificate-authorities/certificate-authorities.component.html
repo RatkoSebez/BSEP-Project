@@ -8,6 +8,7 @@
                     <th scope="col">CA id</th>
                     <th scope="col">Owner id</th>
                     <th scope="col">Parent CA</th>
+                    <th scope="col">Is end entity certificate</th>
                 </tr>
             </thead>
             <tbody>
@@ -15,6 +16,7 @@
                     <th scope="row">{{ ca.id }}</th>
                     <td>{{ ca.ownerId }}</td>
                     <td>{{ (ca.certificateAuthorityParentId !== null) ? (ca.certificateAuthorityParentId) : "root" }}</td>
+                    <td>{{ ca.isEndEntityCertificate }}</td>
                 </tr>
             </tbody>
         </table>

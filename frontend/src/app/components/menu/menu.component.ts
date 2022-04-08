@@ -12,10 +12,9 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class MenuComponent implements OnInit {
   public isLoggedIn = true;
-  public isAdmin = true;
+  public isAdmin = false;
+  public isClient = false;
   public user!: User;
-  // public username = ""
-  // public password = ""
 
   constructor(private loginService: LoginService, private http: HttpClient) { }
   
@@ -28,26 +27,8 @@ export class MenuComponent implements OnInit {
         }
         this.user = response;
         if(this.user.role == "ROLE_ADMIN") this.isAdmin = true;
-        //console.log(response)
+        if(this.user.role == "ROLE_CLIENT") this.isClient = true;
       }
     );
-  }
-
-  yo(){
-    // this.loginService.getLoggedUser().subscribe(data => {
-    //   console.log(data)
-    // })
-    // this.http.get("http://localhost:8080/auth/loggedUser").subscribe(data => {
-    //   console.log(data)
-    // })
-    //console.log(this.loginService.getLoggedUser())
-    //console.log(this.loggedInUser$)
-    this.http.get<any>('api/user/getAll/').subscribe(
-      response => {
-        console.log(response)
-      }
-    );
-
-    
   }
 }
