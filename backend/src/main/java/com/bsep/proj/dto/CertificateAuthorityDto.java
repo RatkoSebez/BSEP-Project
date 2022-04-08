@@ -2,6 +2,7 @@ package com.bsep.proj.dto;
 
 import com.bsep.proj.model.Certificate;
 import com.bsep.proj.model.CertificateAuthority;
+import com.bsep.proj.model.LongHolder;
 import com.bsep.proj.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class CertificateAuthorityDto {
     private Long ownerId;
     private Long certificateAuthorityParentId;
     private Boolean isEndEntityCertificate;
+    private List<LongHolder> children;
 
     public static CertificateAuthorityDto convertToCertificateAuthorityDto(CertificateAuthority certificateAuthority){
         CertificateAuthorityDto certificateAuthorityDto = new CertificateAuthorityDto();
@@ -30,6 +32,7 @@ public class CertificateAuthorityDto {
         certificateAuthorityDto.setOwnerId(certificateAuthority.getOwnerId());
         certificateAuthorityDto.setCertificateAuthorityParentId(certificateAuthority.getCertificateAuthorityParentId());
         certificateAuthorityDto.setIsEndEntityCertificate(certificateAuthority.getIsEndEntityCertificate());
+        certificateAuthorityDto.setChildren(certificateAuthority.getChildren());
         return certificateAuthorityDto;
     }
 

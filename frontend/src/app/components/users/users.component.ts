@@ -25,14 +25,18 @@ export class UsersComponent implements OnInit {
         if(this.user.role == "ROLE_ADMIN"){
           this.getAllUsers()
         }
-        if(this.user.role == "ROLE_ADMIN"){
-          this.getAllNonEndEntityCertificateAuthorities()
-        }
-        if(this.user.role == "ROLE_CLIENT"){
-          this.getUsersNonEndEntityCertificateAuthorities()
-        }
+        this.getNonEndEntityCa()
       }
     );
+  }
+
+  getNonEndEntityCa(){
+    if(this.user.role == "ROLE_ADMIN"){
+      this.getAllNonEndEntityCertificateAuthorities()
+    }
+    if(this.user.role == "ROLE_CLIENT"){
+      this.getUsersNonEndEntityCertificateAuthorities()
+    }
   }
 
   getAllUsers(){
@@ -46,6 +50,7 @@ export class UsersComponent implements OnInit {
   createRootCa(){
     this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: null, ownerId: this.ownerId, isEndEntityCertificate: false}).subscribe(
       response => {
+        this.getNonEndEntityCa()
       }
     );
   }
@@ -53,6 +58,7 @@ export class UsersComponent implements OnInit {
   createCa(){
     this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: this.idOfCertificatePublisher, ownerId: this.ownerId, isEndEntityCertificate: false}).subscribe(
       response => {
+        this.getNonEndEntityCa()
       }
     );
   }
@@ -60,6 +66,7 @@ export class UsersComponent implements OnInit {
   createEndEntityCertificate(){
     this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: this.idOfCertificatePublisher, ownerId: this.ownerId, isEndEntityCertificate: true}).subscribe(
       response => {
+        this.getNonEndEntityCa()
       }
     );
   }

@@ -27,10 +27,15 @@ export class CertificateAuthoritiesComponent implements OnInit {
     );
   }
 
+  getCa(){
+    
+  }
+
   getAllCertificateAuthorities(){
     this.http.get<any>('api/certificate/getAllCertificateAuthorities/').subscribe(
       response => {
         this.certificateAuthorities = response
+        console.log(this.certificateAuthorities)
       }
     );
   }
@@ -39,6 +44,7 @@ export class CertificateAuthoritiesComponent implements OnInit {
     this.http.get<any>('api/certificate/getUserCertificateAuthorities/').subscribe(
       response => {
         this.certificateAuthorities = response
+        console.log(this.certificateAuthorities)
       }
     );
   }

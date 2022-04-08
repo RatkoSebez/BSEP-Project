@@ -3,6 +3,7 @@ package com.bsep.proj.service;
 import com.bsep.proj.dto.CreateCaRequestDto;
 import com.bsep.proj.model.Certificate;
 import com.bsep.proj.model.CertificateAuthority;
+import com.bsep.proj.model.LongHolder;
 import com.bsep.proj.model.User;
 import com.bsep.proj.repository.CertificateAuthorityRepository;
 import com.bsep.proj.repository.CertificateRepository;
@@ -15,6 +16,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.security.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static com.bsep.proj.service.CryptographyFunctionsService.*;
 
@@ -26,6 +28,14 @@ public class CertificateService {
     private UserRepository userRepository;
 
     public void createCertificate(CreateCaRequestDto request) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        // uraditi provere za objekat request
+        // sertifikat moze da pablisuje jedino intermediate i root ca
+        // user moze da koristi jedino svoj ca za pablisovanje
+        // user moze da pravi sertifikate samo za sebe
+
+        // mozda baci neki exception, vidi sta ako ne valja request
+        if(!checkIfRequestIsValid()) return;
+
         CertificateAuthority certificateAuthority = createCertificateAuthority(request);
         Certificate certificate = createCertificate(certificateAuthority);
 
@@ -43,6 +53,7 @@ public class CertificateService {
         }
         else{
             parentCertificateAuthority = certificateAuthorityRepository.getById(request.getIdOfCertificatePublisher());
+            parentCertificateAuthority.getChildren().add(new LongHolder(certificateAuthority.getId()));
             certificate.setIdOfCertificatePublisher(parentCertificateAuthority.getId());
             // this is last place I set something in certificate, so this is time to do hash
             hashedCertificateData = hashCertificateData(certificate);
@@ -85,6 +96,11 @@ public class CertificateService {
         certificate.setPublicKey(certificateAuthority.getPublicKey());
         // I save it because id will be assigned, and I need its id
         return certificateRepository.save(certificate);
+    }
+
+    private Boolean checkIfRequestIsValid(){
+        // TODO
+        return true;
     }
 
 //    private PrivateKey getPrivateKey(CertificateAuthority certificateAuthority){
