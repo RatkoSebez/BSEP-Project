@@ -12,4 +12,5 @@ import lombok.Setter;
 public class CreateCaRequestDto {
     private Long ownerId;
     private Long idOfCertificatePublisher;
+    private Boolean isEndEntityCertificate;
 }

@@ -6,6 +6,8 @@
             root CA</button>
         <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#createCaModal">Create
             CA</button>
+        <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#createEndEntityCertificate">Create
+            End Entity Certificate</button>
         <table class="table table-secondary table-striped w-auto mt-3">
             <thead>
                 <tr>
@@ -65,6 +67,29 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="createCa()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create end entity certificate modal -->
+<div class="modal fade" id="createEndEntityCertificate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create end entity certificate</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input class="form-control mb-4" type="text" placeholder="owner id" name="owner id"
+                    [(ngModel)]="ownerId">
+                <input class="form-control mb-4" type="text" placeholder="idOfCertificatePublisher" name="idOfCertificatePublisher"
+                    [(ngModel)]="idOfCertificatePublisher">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
+                    (click)="createEndEntityCertificate()">Submit</button>
             </div>
         </div>
     </div>

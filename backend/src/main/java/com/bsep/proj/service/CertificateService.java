@@ -26,7 +26,7 @@ public class CertificateService {
     private UserRepository userRepository;
 
     public void createCertificate(CreateCaRequestDto request) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        CertificateAuthority certificateAuthority = createCertificateAuthority(request.getIdOfCertificatePublisher(), request.getOwnerId());
+        CertificateAuthority certificateAuthority = createCertificateAuthority(request);
         Certificate certificate = createCertificate(certificateAuthority);
 
         String hashedCertificateData;
@@ -63,14 +63,15 @@ public class CertificateService {
         certificateRepository.save(certificate);
     }
 
-    private CertificateAuthority createCertificateAuthority(Long idOfCertificatePublisher, Long ownerId) throws NoSuchAlgorithmException, NoSuchProviderException {
+    private CertificateAuthority createCertificateAuthority(CreateCaRequestDto request) throws NoSuchAlgorithmException, NoSuchProviderException {
         CertificateAuthority certificateAuthority = new CertificateAuthority();
         KeyPair keyPair = generateKeys();
-        certificateAuthority.setCertificateAuthorityParentId(idOfCertificatePublisher); // parent is null = CA is root
-        certificateAuthority.setOwnerId(ownerId);
+        certificateAuthority.setCertificateAuthorityParentId(request.getIdOfCertificatePublisher()); // parent is null = CA is root
+        certificateAuthority.setOwnerId(request.getOwnerId());
         certificateAuthorityRepository.save(certificateAuthority);
         certificateAuthority.setPublicKey(keyPair.getPublic());
         certificateAuthority.setPrivateKey(keyPair.getPrivate());
+        certificateAuthority.setIsEndEntityCertificate(request.getIsEndEntityCertificate());
         // I save it because id will be assigned, and I need its id
         return certificateAuthorityRepository.save(certificateAuthority);
     }
