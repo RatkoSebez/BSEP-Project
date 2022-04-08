@@ -42,5 +42,4 @@ export class CertificateAuthoritiesComponent implements OnInit {
       }
     );
   }
-
 }

@@ -63,10 +63,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input class="form-control mb-4" type="text" placeholder="owner id" name="owner id"
-                    [(ngModel)]="ownerId">
-                <input class="form-control mb-4" type="text" placeholder="idOfCertificatePublisher"
-                    name="idOfCertificatePublisher" [(ngModel)]="idOfCertificatePublisher">
+                <label for="" *ngIf="user.role == 'ROLE_ADMIN'">Select user id</label>
+                <select class="form-select" aria-label="Floating label select example" [(ngModel)]="ownerId" *ngIf="user.role == 'ROLE_ADMIN'">
+                    <option *ngFor="let user of users" value={{user.id}}>{{user.id}}</option>
+                </select>
+                <!-- <input class="form-control mb-4" type="text" placeholder="owner id" name="owner id"
+                    [(ngModel)]="ownerId"> -->
+                <label for="">Certificate publisher id</label>
+                <select class="form-select" aria-label="Floating label select example" [(ngModel)]="idOfCertificatePublisher">
+                    <option *ngFor="let ca of certificateAuthorities" value={{ca.id}}>{{ca.id}}</option>
+                </select>
+                <!-- <input class="form-control mb-4" type="text" placeholder="idOfCertificatePublisher"
+                    name="idOfCertificatePublisher" [(ngModel)]="idOfCertificatePublisher"> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -85,10 +93,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input class="form-control mb-4" type="text" placeholder="owner id" name="owner id"
+                <label for="" *ngIf="user.role == 'ROLE_ADMIN'">Select user id</label>
+                <select class="form-select" aria-label="Floating label select example" [(ngModel)]="ownerId"
+                    *ngIf="user.role == 'ROLE_ADMIN'">
+                    <option *ngFor="let user of users" value={{user.id}}>{{user.id}}</option>
+                </select>
+                <label for="">Certificate publisher id</label>
+                <select class="form-select" aria-label="Floating label select example" [(ngModel)]="idOfCertificatePublisher">
+                    <option *ngFor="let ca of certificateAuthorities" value={{ca.id}}>{{ca.id}}</option>
+                </select>
+                <!-- <input class="form-control mb-4" type="text" placeholder="owner id" name="owner id"
                     [(ngModel)]="ownerId">
                 <input class="form-control mb-4" type="text" placeholder="idOfCertificatePublisher" name="idOfCertificatePublisher"
-                    [(ngModel)]="idOfCertificatePublisher">
+                    [(ngModel)]="idOfCertificatePublisher"> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

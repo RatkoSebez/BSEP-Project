@@ -68,4 +68,23 @@ public class UserService implements UserDetailsService {
         }
         return certificates;
     }
+
+    public List<CertificateAuthority> getAllNonEndEntityCertificateAuthorities(){
+        List<CertificateAuthority> certificateAuthorities = new ArrayList<>();
+        List<CertificateAuthority> allCa = certificateAuthorityRepository.findAll();
+        for(CertificateAuthority certificateAuthority : allCa){
+            if(!certificateAuthority.getIsEndEntityCertificate()) certificateAuthorities.add(certificateAuthority);
+        }
+        return certificateAuthorities;
+    }
+
+    public List<CertificateAuthority> getUsersNonEndEntityCertificateAuthorities(){
+        List<CertificateAuthority> certificateAuthorities = new ArrayList<>();
+        List<CertificateAuthority> allCa = certificateAuthorityRepository.findAll();
+        Long ownerId = getLoggedInUserId();
+        for(CertificateAuthority certificateAuthority : allCa){
+            if(certificateAuthority.getOwnerId() == ownerId && !certificateAuthority.getIsEndEntityCertificate()) certificateAuthorities.add(certificateAuthority);
+        }
+        return certificateAuthorities;
+    }
 }

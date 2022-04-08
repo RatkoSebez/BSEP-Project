@@ -30,7 +30,7 @@ public class CertificateController {
     private CertificateAuthorityRepository certificateAuthorityRepository;
     private UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @PostMapping(path = "createCertificateAuthority")
     public void createCertificateAuthority(@RequestBody CreateCaRequestDto request) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
         certificateService.createCertificate(request);
@@ -40,6 +40,12 @@ public class CertificateController {
     @GetMapping(path = "getAllCertificateAuthorities")
     public List<CertificateAuthorityDto> getAllCertificateAuthorities(){
         return CertificateAuthorityDto.convertToCertificateAuthorityDtoList(certificateAuthorityRepository.findAll());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(path = "getAllNonEndEntityCertificateAuthorities")
+    public List<CertificateAuthorityDto> getAllNonEndEntityCertificateAuthorities(){
+        return CertificateAuthorityDto.convertToCertificateAuthorityDtoList(userService.getAllNonEndEntityCertificateAuthorities());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -54,9 +60,17 @@ public class CertificateController {
         return CertificateAuthorityDto.convertToCertificateAuthorityDtoList(userService.getUserCertificateAuthorities());
     }
 
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @GetMapping(path = "getUsersNonEndEntityCertificateAuthorities")
+    public List<CertificateAuthorityDto> getUsersNonEndEntityCertificateAuthorities(){
+        return CertificateAuthorityDto.convertToCertificateAuthorityDtoList(userService.getUsersNonEndEntityCertificateAuthorities());
+    }
+
 //    @PreAuthorize("hasRole('ROLE_CLIENT')")
 //    @GetMapping(path = "getUserCertificates")
 //    public List<CertificateDto> getUsersCertificates(){
 //        return CertificateDto.convertToCertificateDtoList(userService.getUserCertificates());
 //    }
+
+
 }
