@@ -1,3 +1,8 @@
 #demo1{
     margin-top: 50px;
 }
+
+#center {
+    width: 50%;
+    margin: 0 auto;
+}

@@ -28,24 +28,11 @@ public class TreeViewService {
     }
 
     private List<CertificateAuthorityForTreeView> findChildren(CertificateAuthority certificateAuthority, List<CertificateAuthority> certificateAuthorities){
-        // System.out.println();
-        // System.out.println();
-        // System.out.println("ParentFirst: " + certificateAuthority.getId());
         List<CertificateAuthorityForTreeView> children = new ArrayList<>();
         List<LongHolder> childIds = certificateAuthority.getChildren();
-
-//        System.out.print("Child ids: ");
-//        for (LongHolder childId : childIds) {
-//            System.out.print(childId.getHoldenId() + ", ");
-//        }
-        // System.out.println("Parent: " + certificateAuthority.getId());
-        // System.out.print("Potential children: ");
         for(CertificateAuthority ca : certificateAuthorities) {
-            // System.out.println(certificateAuthority.getId() + " - " + ca.getId());
             for (LongHolder childId : childIds) {
-                // System.out.println("--> " + ca.getId() + " jednako " + childId.getHoldenId());
                 if (ca.getId().equals(childId.getHoldenId())) {
-                    // System.out.println("Parent: " + certificateAuthority.getId() + "  children: " + ca.getId());
                     children.add(new CertificateAuthorityForTreeView(ca.getId(), findChildren(ca, certificateAuthorities)));
                 }
             }
