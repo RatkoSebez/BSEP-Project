@@ -9,7 +9,7 @@ import { User } from 'src/app/model/User';
 })
 export class CertificateAuthoritiesComponent implements OnInit {
   certificateAuthorities!: any[]
-  user!: User;
+  user = new User('', 1)
 
   constructor(private http: HttpClient) { }
 

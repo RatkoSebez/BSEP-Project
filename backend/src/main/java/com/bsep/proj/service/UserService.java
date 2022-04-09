@@ -85,30 +85,4 @@ public class UserService implements UserDetailsService {
         }
         return certificateAuthorities;
     }
-
-    public CertificateAuthorityForTreeView getCertificateAuthoritiesForTreeView(){
-        CertificateAuthorityForTreeView tree = new CertificateAuthorityForTreeView();
-        List<CertificateAuthority> certificateAuthorities = certificateAuthorityRepository.findAll();
-        for(CertificateAuthority ca : certificateAuthorities){
-            if(ca.getCertificateAuthorityParentId() == null){
-                tree.setChildren(findChildren(ca));
-                tree.setId(ca.getId());
-            }
-        }
-        return tree;
-    }
-
-    private List<CertificateAuthorityForTreeView> findChildren(CertificateAuthority certificateAuthority){
-        List<CertificateAuthorityForTreeView> children = new ArrayList<>();
-        List<CertificateAuthority> certificateAuthorities = certificateAuthorityRepository.findAll();
-        List<LongHolder> childIds = certificateAuthority.getChildren();
-        for(CertificateAuthority ca : certificateAuthorities){
-            for(LongHolder childId : childIds){
-                if(ca.getId() == childId.getHoldenId()){
-                    children.add(new CertificateAuthorityForTreeView(ca.getId(), findChildren(ca)));
-                }
-            }
-        }
-        return children;
-    }
 }

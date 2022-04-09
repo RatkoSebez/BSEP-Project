@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3'
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +9,19 @@ import * as d3 from 'd3'
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  user = new User('', 1)
 
   constructor(private http: HttpClient) { }
   
   ngOnInit(): void {
+    this.http.get<any>('api/user/loggedInUser/').subscribe(
+      response => {
+        this.user = response
+      }
+    );
     this.http.get<any>('api/treeView/treeViewData/').subscribe(
       response => {
-        // console.log(response)
+        console.log(response)
         this.makeTree(response)
       }
     );
@@ -29,10 +36,9 @@ export class HomeComponent implements OnInit {
     //             ]},
     //             {"name": "B"}
     //         ]};
-
     var root = d3.hierarchy(data)
     var treeLayout = d3.tree()
-      .size([580, 80]);
+      .size([580, 580]);
     treeLayout(root);
     var svg = d3.select("#demo1");
 

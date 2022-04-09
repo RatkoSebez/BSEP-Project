@@ -1,7 +1,7 @@
 package com.bsep.proj.controller;
 
 import com.bsep.proj.model.CertificateAuthorityForTreeView;
-import com.bsep.proj.service.UserService;
+import com.bsep.proj.service.TreeViewService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/treeView")
 public class TreeViewController {
-    private UserService userService;
+    private TreeViewService treeViewService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "treeViewData")
     public CertificateAuthorityForTreeView getCertificateAuthoritiesForTreeView(){
-        return userService.getCertificateAuthoritiesForTreeView();
+        return treeViewService.getCertificateAuthoritiesForTreeView();
     }
 }

@@ -14,7 +14,7 @@ export class MenuComponent implements OnInit {
   public isLoggedIn = false;
   public isAdmin = false;
   public isClient = false;
-  public user!: User;
+  user = new User('', 1)
 
   constructor(private loginService: LoginService, private http: HttpClient) { }
   
