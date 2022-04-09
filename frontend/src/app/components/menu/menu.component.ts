@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  public isLoggedIn = true;
+  public isLoggedIn = false;
   public isAdmin = false;
   public isClient = false;
   public user!: User;
@@ -25,6 +25,7 @@ export class MenuComponent implements OnInit {
           this.isLoggedIn = false, this.isAdmin = false;
           return
         }
+        this.isLoggedIn = true;
         this.user = response;
         if(this.user.role == "ROLE_ADMIN") this.isAdmin = true;
         if(this.user.role == "ROLE_CLIENT") this.isClient = true;

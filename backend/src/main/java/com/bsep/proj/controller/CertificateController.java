@@ -3,6 +3,7 @@ package com.bsep.proj.controller;
 import com.bsep.proj.dto.CertificateAuthorityDto;
 import com.bsep.proj.dto.CertificateDto;
 import com.bsep.proj.dto.CreateCaRequestDto;
+import com.bsep.proj.model.CertificateAuthorityForTreeView;
 import com.bsep.proj.repository.CertificateAuthorityRepository;
 import com.bsep.proj.repository.CertificateRepository;
 import com.bsep.proj.service.CertificateService;
@@ -71,6 +72,4 @@ public class CertificateController {
 //    public List<CertificateDto> getUsersCertificates(){
 //        return CertificateDto.convertToCertificateDtoList(userService.getUserCertificates());
 //    }
-
-
 }

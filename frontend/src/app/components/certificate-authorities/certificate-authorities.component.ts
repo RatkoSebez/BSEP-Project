@@ -27,10 +27,6 @@ export class CertificateAuthoritiesComponent implements OnInit {
     );
   }
 
-  getCa(){
-    
-  }
-
   getAllCertificateAuthorities(){
     this.http.get<any>('api/certificate/getAllCertificateAuthorities/').subscribe(
       response => {

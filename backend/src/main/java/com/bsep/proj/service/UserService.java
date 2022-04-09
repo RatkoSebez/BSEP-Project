@@ -1,8 +1,6 @@
 package com.bsep.proj.service;
 
-import com.bsep.proj.model.Certificate;
-import com.bsep.proj.model.CertificateAuthority;
-import com.bsep.proj.model.User;
+import com.bsep.proj.model.*;
 import com.bsep.proj.repository.CertificateAuthorityRepository;
 import com.bsep.proj.repository.CertificateRepository;
 import com.bsep.proj.repository.UserRepository;
@@ -86,5 +84,31 @@ public class UserService implements UserDetailsService {
             if(certificateAuthority.getOwnerId() == ownerId && !certificateAuthority.getIsEndEntityCertificate()) certificateAuthorities.add(certificateAuthority);
         }
         return certificateAuthorities;
+    }
+
+    public CertificateAuthorityForTreeView getCertificateAuthoritiesForTreeView(){
+        CertificateAuthorityForTreeView tree = new CertificateAuthorityForTreeView();
+        List<CertificateAuthority> certificateAuthorities = certificateAuthorityRepository.findAll();
+        for(CertificateAuthority ca : certificateAuthorities){
+            if(ca.getCertificateAuthorityParentId() == null){
+                tree.setChildren(findChildren(ca));
+                tree.setId(ca.getId());
+            }
+        }
+        return tree;
+    }
+
+    private List<CertificateAuthorityForTreeView> findChildren(CertificateAuthority certificateAuthority){
+        List<CertificateAuthorityForTreeView> children = new ArrayList<>();
+        List<CertificateAuthority> certificateAuthorities = certificateAuthorityRepository.findAll();
+        List<LongHolder> childIds = certificateAuthority.getChildren();
+        for(CertificateAuthority ca : certificateAuthorities){
+            for(LongHolder childId : childIds){
+                if(ca.getId() == childId.getHoldenId()){
+                    children.add(new CertificateAuthorityForTreeView(ca.getId(), findChildren(ca)));
+                }
+            }
+        }
+        return children;
     }
 }
