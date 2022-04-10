@@ -46,7 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         response.sendRedirect("http://localhost:4200");
                     }
                 });
-
         //.loginPage("/login").permitAll();
     }
 

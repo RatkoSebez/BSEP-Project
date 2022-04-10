@@ -1,25 +1,22 @@
 package com.bsep.proj;
 
-import com.bsep.proj.dto.CreateCaRequestDto;
 import com.bsep.proj.model.User;
 import com.bsep.proj.model.UserRole;
 import com.bsep.proj.repository.UserRepository;
-import com.bsep.proj.service.CertificateService;
+import com.bsep.proj.service.CreateService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
 @AllArgsConstructor
 public class ProjApplication implements ApplicationRunner {
 	private final UserRepository userRepository;
-	private final CertificateService certificateService;
+	private final CreateService certificateService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjApplication.class, args);

@@ -12,7 +12,7 @@ export class CertificatesComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<any>('api/certificate/getAllCertificates/').subscribe(
+    this.http.get<any>('api/certificate/').subscribe(
       response => {
         this.certificates = response
       }

@@ -1,17 +1,12 @@
 package com.bsep.proj.dto;
 
-import com.bsep.proj.model.Certificate;
 import com.bsep.proj.model.CertificateAuthority;
 import com.bsep.proj.model.LongHolder;
-import com.bsep.proj.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +21,7 @@ public class CertificateAuthorityDto {
     private Boolean isEndEntityCertificate;
     private List<LongHolder> children;
 
-    public static CertificateAuthorityDto convertToCertificateAuthorityDto(CertificateAuthority certificateAuthority){
+    public static CertificateAuthorityDto convertToDto(CertificateAuthority certificateAuthority){
         CertificateAuthorityDto certificateAuthorityDto = new CertificateAuthorityDto();
         certificateAuthorityDto.setId(certificateAuthority.getId());
         certificateAuthorityDto.setOwnerId(certificateAuthority.getOwnerId());
@@ -36,11 +31,10 @@ public class CertificateAuthorityDto {
         return certificateAuthorityDto;
     }
 
-    public static List<CertificateAuthorityDto> convertToCertificateAuthorityDtoList(List<CertificateAuthority> certificateAuthorities){
+    public static List<CertificateAuthorityDto> convertToDtoList(List<CertificateAuthority> certificateAuthorities){
         List<CertificateAuthorityDto> certificateAuthorityDtos = new ArrayList<>();
-        for(CertificateAuthority certificateAuthority : certificateAuthorities){
-            certificateAuthorityDtos.add(convertToCertificateAuthorityDto(certificateAuthority));
-        }
+        for(CertificateAuthority certificateAuthority : certificateAuthorities)
+            certificateAuthorityDtos.add(convertToDto(certificateAuthority));
         return certificateAuthorityDtos;
     }
 }

@@ -1,7 +1,6 @@
 package com.bsep.proj.service;
 
 import com.bsep.proj.model.Certificate;
-import com.bsep.proj.model.CertificateAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

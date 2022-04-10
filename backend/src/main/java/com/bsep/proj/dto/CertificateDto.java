@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +22,8 @@ public class CertificateDto {
     private LocalDate validUntil;
     private Boolean isWithdrawn;
     private byte[] digitalSignature;
-//    private String publicKey;
-//    private PublicKey publicKey;
 
-    public static CertificateDto convertToCertificateDto(Certificate certificate){
+    public static CertificateDto convertToDto(Certificate certificate){
         CertificateDto certificateDto = new CertificateDto();
         certificateDto.setId(certificate.getId());
         certificateDto.setIdOfCertificatePublisher(certificate.getIdOfCertificatePublisher());
@@ -35,15 +32,13 @@ public class CertificateDto {
         certificateDto.setValidUntil(certificate.getValidUntil());
         certificateDto.setIsWithdrawn(certificate.getIsWithdrawn());
         certificateDto.setDigitalSignature(certificate.getDigitalSignature());
-//        certificateDto.setPublicKey(certificate.getPublicKey().toString());
         return certificateDto;
     }
 
-    public static List<CertificateDto> convertToCertificateDtoList(List<Certificate> certificates){
+    public static List<CertificateDto> convertToDtoList(List<Certificate> certificates){
         List<CertificateDto> certificateDtos = new ArrayList<>();
-        for(Certificate certificate : certificates){
-            certificateDtos.add(convertToCertificateDto(certificate));
-        }
+        for(Certificate certificate : certificates)
+            certificateDtos.add(convertToDto(certificate));
         return certificateDtos;
     }
 }

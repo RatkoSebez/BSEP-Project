@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
         this.user = response
       }
     );
-    this.http.get<any>('api/treeView/treeViewData/').subscribe(
+    this.http.get<any>('api/treeView/').subscribe(
       response => {
         console.log(response)
         this.makeTree(response)

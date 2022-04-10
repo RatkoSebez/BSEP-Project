@@ -26,13 +26,4 @@ public class Certificate {
     private PublicKey publicKey;
     private Boolean isWithdrawn;
     private byte[] digitalSignature;
-
-    public Certificate(Long idOfCertificatePublisher, Long idOfCertificateOwner, LocalDate timeOfPublishing, LocalDate validUntil, PublicKey publicKey, Boolean isWithdrawn) {
-        this.idOfCertificatePublisher = idOfCertificatePublisher;
-        this.idOfCertificateOwner = idOfCertificateOwner;
-        this.timeOfPublishing = timeOfPublishing;
-        this.validUntil = validUntil;
-        this.publicKey = publicKey;
-        this.isWithdrawn = isWithdrawn;
-    }
 }

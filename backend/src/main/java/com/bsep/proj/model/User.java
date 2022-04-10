@@ -9,8 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,9 +28,6 @@ public class User implements UserDetails {
     private UserRole role;
     private String firstName;
     private String lastName;
-    // PAZI: ako cuvas kljuceve u useru, onda on moze biti vezan samo za jedan ca ili sertifikat
-//    private PublicKey publicKey;
-//    private PrivateKey privateKey;
 
     public User(String username, String password, UserRole role, String firstName, String lastName) {
         this.username = username;

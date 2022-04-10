@@ -28,7 +28,7 @@ export class CertificateAuthoritiesComponent implements OnInit {
   }
 
   getAllCertificateAuthorities(){
-    this.http.get<any>('api/certificate/getAllCertificateAuthorities/').subscribe(
+    this.http.get<any>('api/certificateAuthority').subscribe(
       response => {
         this.certificateAuthorities = response
         console.log(this.certificateAuthorities)
@@ -37,7 +37,7 @@ export class CertificateAuthoritiesComponent implements OnInit {
   }
 
   getUsersCertificateAuthorities(){
-    this.http.get<any>('api/certificate/getUserCertificateAuthorities/').subscribe(
+    this.http.get<any>('api/certificateAuthority/user/').subscribe(
       response => {
         this.certificateAuthorities = response
         console.log(this.certificateAuthorities)

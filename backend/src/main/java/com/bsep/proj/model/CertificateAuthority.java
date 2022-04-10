@@ -26,12 +26,9 @@ public class CertificateAuthority {
     private Long ownerId;
     private PublicKey publicKey;
     private PrivateKey privateKey;
-    // field is null if it is root CA, otherwise it has id of CA which signed it
     private Long certificateAuthorityParentId;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "certificate_authority_id", referencedColumnName = "id")
     private List<LongHolder> children = new ArrayList<>();
-    // ako je true, to znaci da je ovo end entity sertifikat i da ne moze da izdaje druge sertifikate
-    // ime klase nije najbolje, probaj naci pogodnije ime
     private Boolean isEndEntityCertificate;
 }

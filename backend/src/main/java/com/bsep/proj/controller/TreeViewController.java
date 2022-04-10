@@ -17,7 +17,7 @@ public class TreeViewController {
     private TreeViewService treeViewService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping(path = "treeViewData")
+    @GetMapping(path = "")
     public CertificateAuthorityForTreeView getCertificateAuthoritiesForTreeView(){
         return treeViewService.getCertificateAuthoritiesForTreeView();
     }

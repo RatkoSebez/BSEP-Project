@@ -40,7 +40,7 @@ export class UsersComponent implements OnInit {
   }
 
   getAllUsers(){
-    this.http.get<any>('api/user/getAll/').subscribe(
+    this.http.get<any>('api/user/').subscribe(
       response => {
         this.users = response
       }
@@ -48,7 +48,7 @@ export class UsersComponent implements OnInit {
   }
 
   createRootCa(){
-    this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: null, ownerId: this.ownerId, isEndEntityCertificate: false}).subscribe(
+    this.http.post('api/create', {idOfCertificatePublisher: null, ownerId: this.ownerId, isEndEntityCertificate: false}).subscribe(
       response => {
         this.getNonEndEntityCa()
       }
@@ -56,7 +56,7 @@ export class UsersComponent implements OnInit {
   }
 
   createCa(){
-    this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: this.idOfCertificatePublisher, ownerId: this.ownerId, isEndEntityCertificate: false}).subscribe(
+    this.http.post('api/create', {idOfCertificatePublisher: this.idOfCertificatePublisher, ownerId: this.ownerId, isEndEntityCertificate: false}).subscribe(
       response => {
         this.getNonEndEntityCa()
       }
@@ -64,7 +64,7 @@ export class UsersComponent implements OnInit {
   }
 
   createEndEntityCertificate(){
-    this.http.post('api/certificate/createCertificateAuthority', {idOfCertificatePublisher: this.idOfCertificatePublisher, ownerId: this.ownerId, isEndEntityCertificate: true}).subscribe(
+    this.http.post('api/create', {idOfCertificatePublisher: this.idOfCertificatePublisher, ownerId: this.ownerId, isEndEntityCertificate: true}).subscribe(
       response => {
         this.getNonEndEntityCa()
       }
@@ -72,7 +72,7 @@ export class UsersComponent implements OnInit {
   }
 
   getAllNonEndEntityCertificateAuthorities(){
-    this.http.get<any>('api/certificate/getAllNonEndEntityCertificateAuthorities/').subscribe(
+    this.http.get<any>('api/certificateAuthority/nonEndEntity/').subscribe(
       response => {
         this.certificateAuthorities = response
       }
@@ -80,7 +80,7 @@ export class UsersComponent implements OnInit {
   }
 
   getUsersNonEndEntityCertificateAuthorities(){
-    this.http.get<any>('api/certificate/getUsersNonEndEntityCertificateAuthorities/').subscribe(
+    this.http.get<any>('api/certificateAuthority/userNonEndEntity/').subscribe(
       response => {
         this.certificateAuthorities = response
       }

@@ -21,7 +21,8 @@ public class UserDto {
     private String firstName;
     private String lastName;
     
-    public static UserDto convertToUserDto(User user){
+    public static UserDto convertToDto(User user){
+        if(user == null) return null;
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
@@ -31,11 +32,10 @@ public class UserDto {
         return userDto;
     }
     
-    public static List<UserDto> convertToUserDtoList(List<User> users){
+    public static List<UserDto> convertToDtoList(List<User> users){
         List<UserDto> userDtos = new ArrayList<>();
-        for(User user : users){
-            userDtos.add(convertToUserDto(user));
-        }
+        for(User user : users)
+            userDtos.add(convertToDto(user));
         return userDtos;
     }
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateCaRequestDto {
+public class CreateRequestDto {
     private Long ownerId;
     private Long idOfCertificatePublisher;
     private Boolean isEndEntityCertificate;
