@@ -37,7 +37,7 @@ public class CryptographyFunctionsService {
     public static String hashCertificateData(Certificate certificate){
         String certificateData = certificate.getId().toString() + certificate.getIdOfCertificatePublisher().toString()
                 + certificate.getIdOfCertificateOwner() + certificate.getTimeOfPublishing()
-                + certificate.getValidUntil() + certificate.getIsWithdrawn() + certificate.getPublicKey();
+                + certificate.getValidUntil() + certificate.getIsRevoked() + certificate.getPublicKey();
         return new BCryptPasswordEncoder().encode(certificateData);
     }
 }

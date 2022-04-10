@@ -3,6 +3,7 @@ package com.bsep.proj.controller;
 import com.bsep.proj.dto.CertificateAuthorityDto;
 import com.bsep.proj.dto.CertificateDto;
 import com.bsep.proj.dto.CreateRequestDto;
+import com.bsep.proj.dto.RevokedRequestDto;
 import com.bsep.proj.service.CertificateService;
 import com.bsep.proj.service.CreateService;
 import com.bsep.proj.service.UserService;
@@ -30,5 +31,11 @@ public class CertificateController {
     @GetMapping()
     public List<CertificateDto> getAllCertificates(){
         return CertificateDto.convertToDtoList(certificateService.getAll());
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @GetMapping(path = "/revoked/{certificateId}")
+    public Boolean isRevoked(@PathVariable Long certificateId){
+        return certificateService.isRevoked(certificateId);
     }
 }

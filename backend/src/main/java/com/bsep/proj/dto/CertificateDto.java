@@ -30,7 +30,7 @@ public class CertificateDto {
         certificateDto.setIdOfCertificateOwner(certificate.getIdOfCertificateOwner());
         certificateDto.setTimeOfPublishing(certificate.getTimeOfPublishing());
         certificateDto.setValidUntil(certificate.getValidUntil());
-        certificateDto.setIsWithdrawn(certificate.getIsWithdrawn());
+        certificateDto.setIsWithdrawn(certificate.getIsRevoked());
         certificateDto.setDigitalSignature(certificate.getDigitalSignature());
         return certificateDto;
     }

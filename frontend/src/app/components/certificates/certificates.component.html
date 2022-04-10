@@ -11,6 +11,7 @@
                     <th scope="col">Valid from</th>
                     <th scope="col">Valid until</th>
                     <th scope="col">Is withdrawn</th>
+                    <th scope="col">Revoked</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +22,7 @@
                     <td>{{ certificate.timeOfPublishing }}</td>
                     <td>{{ certificate.validUntil}}</td>
                     <td>{{ certificate.isWithdrawn}}</td>
+                    <td><button type="button" class="btn btn-primary" (click)="isRevoked(certificate.id)">revoked?</button></td>
                 </tr>
             </tbody>
         </table>

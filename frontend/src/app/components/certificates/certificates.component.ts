@@ -19,4 +19,11 @@ export class CertificatesComponent implements OnInit {
     );
   }
 
+  isRevoked(id){
+    this.http.get<any>('api/certificate/revoked/' + id).subscribe(
+      response => {
+        console.log(response)
+      }
+    );
+  }
 }

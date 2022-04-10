@@ -26,7 +26,7 @@ public class CreateService {
         if (!checkIfRequestIsValid(request)) return;
 
         CertificateAuthority certificateAuthority = createCertificateAuthority(request);
-        Certificate certificate = createCertificateAndCertificateAuthority(certificateAuthority);
+        Certificate certificate = createCertificate(certificateAuthority);
 
         String hashedCertificateData;
 
@@ -75,12 +75,12 @@ public class CreateService {
         return certificateAuthorityRepository.save(certificateAuthority);
     }
 
-    private Certificate createCertificateAndCertificateAuthority(CertificateAuthority certificateAuthority) {
+    private Certificate createCertificate(CertificateAuthority certificateAuthority) {
         Certificate certificate = new Certificate();
         certificate.setIdOfCertificateOwner(certificateAuthority.getId());
         certificate.setTimeOfPublishing(LocalDate.now());
         certificate.setValidUntil(LocalDate.now().plusMonths(6));
-        certificate.setIsWithdrawn(false);
+        certificate.setIsRevoked(false);
         certificate.setPublicKey(certificateAuthority.getPublicKey());
         // I save it because id will be assigned, and I need its id
         return certificateRepository.save(certificate);

@@ -24,6 +24,6 @@ public class Certificate {
     private LocalDate timeOfPublishing;
     private LocalDate validUntil;
     private PublicKey publicKey;
-    private Boolean isWithdrawn;
     private byte[] digitalSignature;
+    private Boolean isRevoked;
 }
