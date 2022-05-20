@@ -13,6 +13,7 @@ import { UsersComponent } from './components/users/users.component';
 import { CertificatesComponent } from './components/certificates/certificates.component';
 import { CertificateAuthoritiesComponent } from './components/certificate-authorities/certificate-authorities.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RegisterComponent } from './components/register/register.component';
     UsersComponent,
     CertificatesComponent,
     CertificateAuthoritiesComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

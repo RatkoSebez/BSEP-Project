@@ -1,5 +1,6 @@
 package com.bsep.proj.service;
 
+import com.bsep.proj.dto.ChangePasswordDto;
 import com.bsep.proj.model.*;
 import com.bsep.proj.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MESSAGE = "User with username %s not found.";
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,19 +48,18 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity<String> register(User user){
-        if(!usernameIsUnique(user.getUsername())) return new ResponseEntity<>("email already exists", HttpStatus.CONFLICT);
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if(!usernameIsUnique(user.getUsername()))
+            return new ResponseEntity<>("email already exists", HttpStatus.CONFLICT);
+        user.setPassword(bcrypt.encode(user.getPassword()));
         user.getRole().add(UserRole.ROLE_CLIENT);
 
         // account is not accessible until email address is confirmed
+        user.setEnabled(false);
         String uniqueID = UUID.randomUUID().toString();
         user.setVerificationCode(uniqueID);
-        user.setEnabled(false);
         userRepository.save(user);
         emailService.sendConfirmationEmail(user);
-
-        return new ResponseEntity<>("user registered successfully", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public boolean usernameIsUnique(String username){
@@ -67,5 +68,14 @@ public class UserService implements UserDetailsService {
 
     public User getUserByVerificationCode(String verificationCode){
         return userRepository.findByVerificationCode(verificationCode);
+    }
+
+    public boolean changePassword(ChangePasswordDto changePasswordDto) {
+        User user = getLoggedInUser();
+        if(!bcrypt.matches(changePasswordDto.getCurrentPassword(), user.getPassword()))
+            return false;
+        user.setPassword(bcrypt.encode(changePasswordDto.getNewPassword()));
+        userRepository.save(user);
+        return true;
     }
 }

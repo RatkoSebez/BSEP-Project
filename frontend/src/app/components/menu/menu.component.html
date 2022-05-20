@@ -17,6 +17,9 @@
                 <li class="nav-item">
                     <a routerLink="/users" routerLinkActive="active" class="nav-link" *ngIf="isAdmin || isClient">Users</a>
                 </li>
+                <li class="nav-item">
+                    <a routerLink="/changePassword" routerLinkActive="active" class="nav-link" *ngIf="isAdmin || isClient">Change Password</a>
+                </li>
             </ul>
             <form class="d-flex">
                 <a href="/login" *ngIf="!isLoggedIn">
