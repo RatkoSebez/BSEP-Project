@@ -4,6 +4,7 @@ import { CertificateAuthoritiesComponent } from './components/certificate-author
 import { CertificatesComponent } from './components/certificates/certificates.component';
 import { HomeComponent } from './components/home/home.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { RegisterComponent } from './components/register/register.component';
 import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: "users", component: UsersComponent},
   {path: "certificates", component: CertificatesComponent},
   {path: "certificateAuthorities", component: CertificateAuthoritiesComponent},
+  {path: "register", component: RegisterComponent},
   {path: "**", component: PageNotFoundComponent}
 ];
 

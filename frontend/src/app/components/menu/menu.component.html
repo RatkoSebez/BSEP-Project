@@ -29,6 +29,11 @@
                         Logout
                     </button>
                 </a>
+                <a href="/register" *ngIf="!isLoggedIn">
+                    <button class="btn btn-outline-success" type="button">
+                        Register
+                    </button>
+                </a>
             </form>
         </div>
     </div>

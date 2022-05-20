@@ -1,16 +1,16 @@
 {
     "/api":{
-        "target": "http://localhost:8080",
+        "target": "https://localhost",
         "secure": false,
         "logLevel": "debug"
     },
     "/login":{
-        "target": "http://localhost:8080",
+        "target": "https://localhost",
         "secure": false,
         "logLevel": "debug"
     },
     "/logout":{
-        "target": "http://localhost:8080",
+        "target": "https://localhost",
         "secure": false,
         "logLevel": "debug"
     }

@@ -4,12 +4,10 @@ import com.bsep.proj.dto.UserDto;
 import com.bsep.proj.model.User;
 import com.bsep.proj.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +27,15 @@ public class UserController {
     @GetMapping("/loggedInUser")
     public UserDto loggedInUser(){
         return UserDto.convertToDto(UserService.getLoggedInUser());
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "test works";
+    }
+
+    @PostMapping()
+    public ResponseEntity<String> register(@RequestBody User user){
+        return userService.register(user);
     }
 }

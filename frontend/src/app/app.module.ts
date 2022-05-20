@@ -12,6 +12,7 @@ import { LoginService } from './services/login.service';
 import { UsersComponent } from './components/users/users.component';
 import { CertificatesComponent } from './components/certificates/certificates.component';
 import { CertificateAuthoritiesComponent } from './components/certificate-authorities/certificate-authorities.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CertificateAuthoritiesComponent } from './components/certificate-author
     PageNotFoundComponent,
     UsersComponent,
     CertificatesComponent,
-    CertificateAuthoritiesComponent
+    CertificateAuthoritiesComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

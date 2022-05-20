@@ -25,6 +25,12 @@ export class HomeComponent implements OnInit {
         this.makeTree(response)
       }
     );
+    // blocked by cors, fix this
+    // this.http.post('https://localhost/api/login', {username: "admin", password: "123"}).subscribe(
+    //   response => {
+    //     console.log("login response: " + response)
+    //   }
+    // );
   }
 
   makeTree(data){

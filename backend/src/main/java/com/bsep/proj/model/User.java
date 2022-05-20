@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,16 +21,18 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
-    private UserRole role;
+//    @ManyToMany(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
+    // napravi tabelu za rolu, ne znam kako da enum cuvam
+    private List<UserRole> role = new ArrayList<>();
     private String firstName;
     private String lastName;
 
-    public User(String username, String password, UserRole role, String firstName, String lastName) {
+    public User(String username, String password, List<UserRole> role, String firstName, String lastName) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -40,7 +43,8 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(this.role.name()));
+        this.role.forEach(role -> grantedAuthorities.add(new SimpleGrantedAuthority(role.name())));
+//        this.role.forEach(role -> System.out.println(role.name()));
         return grantedAuthorities;
     }
 

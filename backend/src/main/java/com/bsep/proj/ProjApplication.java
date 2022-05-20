@@ -10,6 +10,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
@@ -24,16 +26,20 @@ public class ProjApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		String password = "$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra";
-		userRepository.save(new User("user", password, UserRole.ROLE_CLIENT, "user", "user"));
-		userRepository.save(new User("admin", password, UserRole.ROLE_ADMIN, "admin", "admin"));
-		String firstNames[] = {"Marko", "Jovan", "Milica", "Jovana", "Teodora", "Anja", "Stefan", "Ćićo", "Mićko", "Slavoljub", "Miroljub"};
-		String lastNames[] = {"Marković", "Jovanović", "Pejović", "Mitrović", "Jović", "Vlahović", "Srećković", "Zec", "Zlatanović", "Zarković", "Kićanski"};
-		for(int i=0; i<100; i++){
-			int firstNameIndex = ThreadLocalRandom.current().nextInt(0, firstNames.length-1);
-			int lastNameIndex = ThreadLocalRandom.current().nextInt(0, lastNames.length-1);
-			userRepository.save(new User(firstNames[firstNameIndex] + lastNames[lastNameIndex], password, UserRole.ROLE_CLIENT, firstNames[firstNameIndex], lastNames[lastNameIndex]));
-		}
+		String password = "$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra"; // 123 hashed
+		List<UserRole> rolesAdmin = new ArrayList<>();
+		rolesAdmin.add(UserRole.ROLE_ADMIN);
+		List<UserRole> rolesClient = new ArrayList<>();
+		rolesClient.add(UserRole.ROLE_CLIENT);
+		userRepository.save(new User("user", password, rolesClient, "user", "user"));
+		userRepository.save(new User("admin", password, rolesAdmin, "admin", "admin"));
+		String firstNames[] = {"Marko", "Jovan", "Milica", "Jovana", "Teodora", "Anja", "Stefan", "Miroljub", "Nina"};
+		String lastNames[] = {"Marković", "Jovanović", "Pejović", "Mitrović", "Jović", "Vlahović", "Zec", "Zlatanović", "Zarković"};
+//		for(int i=0; i<100; i++){
+//			int firstNameIndex = ThreadLocalRandom.current().nextInt(0, firstNames.length-1);
+//			int lastNameIndex = ThreadLocalRandom.current().nextInt(0, lastNames.length-1);
+//			userRepository.save(new User(firstNames[firstNameIndex] + lastNames[lastNameIndex], password, roles, firstNames[firstNameIndex], lastNames[lastNameIndex]));
+//		}
 		// figure out why this line don't work
 		// certificateService.createCertificate(new CreateCaRequestDto(2l, null));
 	}

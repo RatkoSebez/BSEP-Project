@@ -3,10 +3,13 @@ package com.bsep.proj.service;
 import com.bsep.proj.model.*;
 import com.bsep.proj.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +41,18 @@ public class UserService implements UserDetailsService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal instanceof String) return null;
         return (User)principal;
+    }
+
+    public ResponseEntity<String> register(User user){
+        if(!usernameIsUnique(user.getUsername())) return new ResponseEntity<>("email already exists", HttpStatus.CONFLICT);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.getRole().add(UserRole.ROLE_CLIENT);
+        userRepository.save(user);
+        return new ResponseEntity<>("user registered successfully", HttpStatus.OK);
+    }
+
+    public boolean usernameIsUnique(String username){
+        return userRepository.findAllByUsername(username).size() <= 0;
     }
 }
