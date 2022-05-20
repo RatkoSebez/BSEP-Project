@@ -13,12 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MESSAGE = "User with username %s not found.";
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -48,11 +50,22 @@ public class UserService implements UserDetailsService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.getRole().add(UserRole.ROLE_CLIENT);
+
+        // account is not accessible until email address is confirmed
+        String uniqueID = UUID.randomUUID().toString();
+        user.setVerificationCode(uniqueID);
+        user.setEnabled(false);
         userRepository.save(user);
+        emailService.sendConfirmationEmail(user);
+
         return new ResponseEntity<>("user registered successfully", HttpStatus.OK);
     }
 
     public boolean usernameIsUnique(String username){
         return userRepository.findAllByUsername(username).size() <= 0;
+    }
+
+    public User getUserByVerificationCode(String verificationCode){
+        return userRepository.findByVerificationCode(verificationCode);
     }
 }

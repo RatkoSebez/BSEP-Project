@@ -2,6 +2,7 @@ package com.bsep.proj.controller;
 
 import com.bsep.proj.dto.UserDto;
 import com.bsep.proj.model.User;
+import com.bsep.proj.repository.UserRepository;
 import com.bsep.proj.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping(value = "/api/user")
 public class UserController {
     private UserService userService;
+    private UserRepository userRepository;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "")
@@ -37,5 +39,14 @@ public class UserController {
     @PostMapping()
     public ResponseEntity<String> register(@RequestBody User user){
         return userService.register(user);
+    }
+
+    @GetMapping(path = "confirmEmail")
+    public Boolean confirmEmail(@RequestParam("code") String code){
+        User user = userService.getUserByVerificationCode(code);
+        if(user == null) return false;
+        user.setEnabled(true);
+        userRepository.save(user);
+        return true;
     }
 }

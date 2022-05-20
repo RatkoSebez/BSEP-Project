@@ -31,6 +31,8 @@ public class User implements UserDetails {
     private List<UserRole> role = new ArrayList<>();
     private String firstName;
     private String lastName;
+    private String verificationCode = "";
+    private Boolean enabled = true;
 
     public User(String username, String password, List<UserRole> role, String firstName, String lastName) {
         this.username = username;
@@ -75,6 +77,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
