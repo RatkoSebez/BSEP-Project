@@ -15,6 +15,7 @@ import { CertificateAuthoritiesComponent } from './components/certificate-author
 import { RegisterComponent } from './components/register/register.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { PasswordlessComponent } from './components/passwordless/passwordless.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     CertificateAuthoritiesComponent,
     RegisterComponent,
     ChangePasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    PasswordlessComponent
   ],
   imports: [
     BrowserModule,

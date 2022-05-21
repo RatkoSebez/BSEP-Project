@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,8 @@ public class User implements UserDetails {
     private String lastName;
     private String verificationCode = "";
     private String forgotPasswordVerificationCode = "";
+    private String passwordlessLoginVerificationCode = "";
+    private Date passwordlessLoginVerificationCodeIssued;
     private Boolean enabled = true;
 
     public User(String username, String password, List<UserRole> role, String firstName, String lastName) {

@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -101,5 +102,22 @@ public class UserService implements UserDetailsService {
         String subject = "Forgot password verification code.";
         String text = user.getForgotPasswordVerificationCode();
         emailService.sendEmail(email, subject, text);
+    }
+
+    public void sendPasswordlessLink(String email) {
+        User user = userRepository.findByUsername(email).get();
+
+        int code = new Random().nextInt(900000) + 100000;
+        user.setPasswordlessLoginVerificationCode(Integer.toString(code));
+        user.setPasswordlessLoginVerificationCodeIssued(new Date());
+        userRepository.save(user);
+
+        String subject = "Passwordless login link.";
+        String text = "https://localhost/api/user/passwordless?code=" + user.getPasswordlessLoginVerificationCode();
+        emailService.sendEmail(email, subject, text);
+    }
+
+    public User getUserByPasswordlessLoginVerificationCode(String code) {
+        return userRepository.findByPasswordlessLoginVerificationCode(code);
     }
 }

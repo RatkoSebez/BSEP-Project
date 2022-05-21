@@ -31,7 +31,7 @@ public class ProjApplication implements ApplicationRunner {
 		rolesAdmin.add(UserRole.ROLE_ADMIN);
 		List<UserRole> rolesClient = new ArrayList<>();
 		rolesClient.add(UserRole.ROLE_CLIENT);
-		userRepository.save(new User("user", password, rolesClient, "user", "user"));
+		userRepository.save(new User("isaprojmejl2@gmail.com", password, rolesClient, "user", "user"));
 		userRepository.save(new User("admin", password, rolesAdmin, "admin", "admin"));
 		String firstNames[] = {"Marko", "Jovan", "Milica", "Jovana", "Teodora", "Anja", "Stefan", "Miroljub", "Nina"};
 		String lastNames[] = {"Marković", "Jovanović", "Pejović", "Mitrović", "Jović", "Vlahović", "Zec", "Zlatanović", "Zarković"};
