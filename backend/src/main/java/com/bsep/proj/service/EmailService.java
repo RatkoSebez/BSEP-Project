@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 public class EmailService {
     private final JavaMailSender javaMailSender;
 
-    public void sendConfirmationEmail(User user){
+    public void sendEmail(String email, String subject, String text){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("isaprojmejl@gmail.com");
-        message.setTo(user.getUsername());
-        message.setSubject("Please confirm your email address to access bsep website.");
-        message.setText("https://localhost/api/user/confirmEmail?code=" + user.getVerificationCode());
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(text);
         javaMailSender.send(message);
     }
 }

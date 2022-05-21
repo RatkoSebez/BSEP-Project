@@ -1,6 +1,7 @@
 package com.bsep.proj.service;
 
 import com.bsep.proj.dto.ChangePasswordDto;
+import com.bsep.proj.dto.ForgotPasswordDto;
 import com.bsep.proj.model.*;
 import com.bsep.proj.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -58,7 +60,9 @@ public class UserService implements UserDetailsService {
         String uniqueID = UUID.randomUUID().toString();
         user.setVerificationCode(uniqueID);
         userRepository.save(user);
-        emailService.sendConfirmationEmail(user);
+        String subject = "Please confirm your email address to access bsep website.";
+        String text = "https://localhost/api/user/confirmEmail?code=" + user.getVerificationCode();
+        emailService.sendEmail(user.getUsername(), subject, text);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -77,5 +81,25 @@ public class UserService implements UserDetailsService {
         user.setPassword(bcrypt.encode(changePasswordDto.getNewPassword()));
         userRepository.save(user);
         return true;
+    }
+
+    public boolean forgotPassword(ForgotPasswordDto forgotPasswordDto) {
+        User user = userRepository.findByForgotPasswordVerificationCode(forgotPasswordDto.getForgotPasswordVerificationCode());
+        if(user == null) return false;
+        user.setPassword(bcrypt.encode(forgotPasswordDto.getNewPassword()));
+        userRepository.save(user);
+        return true;
+    }
+
+    public void sendForgotPasswordVerificationCode(String email) {
+        User user = userRepository.findByUsername(email).get();
+
+        int code = new Random().nextInt(900000) + 100000;
+        user.setForgotPasswordVerificationCode(Integer.toString(code));
+        userRepository.save(user);
+
+        String subject = "Forgot password verification code.";
+        String text = user.getForgotPasswordVerificationCode();
+        emailService.sendEmail(email, subject, text);
     }
 }

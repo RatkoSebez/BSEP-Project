@@ -1,6 +1,7 @@
 package com.bsep.proj.controller;
 
 import com.bsep.proj.dto.ChangePasswordDto;
+import com.bsep.proj.dto.ForgotPasswordDto;
 import com.bsep.proj.dto.UserDto;
 import com.bsep.proj.model.User;
 import com.bsep.proj.repository.UserRepository;
@@ -51,5 +52,15 @@ public class UserController {
     @PostMapping("/changePassword")
     public boolean changePassword(@RequestBody ChangePasswordDto changePasswordDto){
         return userService.changePassword(changePasswordDto);
+    }
+
+    @PostMapping("/forgotPassword")
+    public boolean forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto){
+        return userService.forgotPassword(forgotPasswordDto);
+    }
+
+    @GetMapping("/sendForgotPasswordVerificationCode/{email}")
+    public void sendForgotPasswordVerificationCode(@PathVariable String email){
+        userService.sendForgotPasswordVerificationCode(email);
     }
 }

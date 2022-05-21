@@ -32,6 +32,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String verificationCode = "";
+    private String forgotPasswordVerificationCode = "";
     private Boolean enabled = true;
 
     public User(String username, String password, List<UserRole> role, String firstName, String lastName) {
