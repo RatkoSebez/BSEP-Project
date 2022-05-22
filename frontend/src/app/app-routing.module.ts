@@ -20,6 +20,7 @@ const routes: Routes = [
   {path: "passwordless", component: PasswordlessComponent},
   {path: "changePassword", component: ChangePasswordComponent},
   {path: "forgotPassword", component: ForgotPasswordComponent},
+  {path: "notFound", component: PageNotFoundComponent},
   {path: "**", component: PageNotFoundComponent}
 ];
 

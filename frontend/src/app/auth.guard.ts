@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean{
     if(localStorage.getItem("ok") === "true") return true;
     else{ 
-      this._router.navigate(['/'])
+      this._router.navigate(['/notFound'])
       return false;
     }
   }

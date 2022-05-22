@@ -27,6 +27,11 @@ public class UserController {
     private UserRepository userRepository;
     private AuthenticationManager authenticationManager;
 
+    @GetMapping(path = "/test")
+    public String test(){
+        return "test works";
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "")
     public List<UserDto> getAllUsers(){

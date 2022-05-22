@@ -10,9 +10,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
 @AllArgsConstructor
@@ -42,5 +43,19 @@ public class ProjApplication implements ApplicationRunner {
 //		}
 		// figure out why this line don't work
 		// certificateService.createCertificate(new CreateCaRequestDto(2l, null));
+		accessToFilesTest();
+	}
+
+	private void accessToFilesTest() throws IOException {
+		File file = new File("test.txt");
+		file.createNewFile();
+		printFilePermissions(file);
+		file.setWritable(false);
+		printFilePermissions(file);
+	}
+
+	private void printFilePermissions(File file){
+		System.out.println("read permission: " + file.canRead());
+		System.out.println("write permission: " + file.canWrite());
 	}
 }
