@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  # frontend:
+  #   image: frontend
+  #   build:
+  #     context: .
+  #     dockerfile: frontend/Dockerfile
+  #   ports:
+  #     - 80:80
+  #     # depends_on:
+  #     # - backend
+  #   restart: on-failure
+  #   networks:
+  #     - database
+  backend:
+    image: backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - 8091:8080
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - database
+  database:
+    image: postgres:14.1-alpine
+    restart: always
+    networks:
+      - database
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      # POSTGRES_DB: docker
+      # volumes:
+      #   - type: volume
+      #     source: database-data
+      #     target: /var/lib/postgresql/data
+    ports:
+      - 5002:5432
+
+volumes:
+  database-data:
+    name: database
+
+networks:
+  database:
+    name: database
+    driver: bridge

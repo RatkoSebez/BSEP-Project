@@ -26,6 +26,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+    private final ValidationService validationService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -53,6 +54,10 @@ public class UserService implements UserDetailsService {
     public ResponseEntity<String> register(User user){
         if(!usernameIsUnique(user.getUsername()))
             return new ResponseEntity<>("email already exists", HttpStatus.CONFLICT);
+        if(!validationService.validatePassword(user.getPassword()))
+            return new ResponseEntity<>("password is not valid", HttpStatus.BAD_REQUEST);
+        if(!validationService.validateEmail(user.getUsername()))
+            return new ResponseEntity<>("email is not valid", HttpStatus.BAD_REQUEST);
         user.setPassword(bcrypt.encode(user.getPassword()));
         user.getRole().add(UserRole.ROLE_CLIENT);
 
