@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .xssProtection()
                 .and()
                 // header that allows browser to run only script that came from this server
-                .contentSecurityPolicy("script-src 'self'");;
+                .contentSecurityPolicy("script-src 'self'");
         //.loginPage("/login").permitAll();
 
 

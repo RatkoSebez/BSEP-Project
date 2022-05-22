@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 import { CertificateAuthoritiesComponent } from './components/certificate-authorities/certificate-authorities.component';
 import { CertificatesComponent } from './components/certificates/certificates.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
@@ -12,7 +13,7 @@ import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
-  {path: "users", component: UsersComponent},
+  {path: "users", component: UsersComponent, canActivate: [AuthGuard]},
   {path: "certificates", component: CertificatesComponent},
   {path: "certificateAuthorities", component: CertificateAuthoritiesComponent},
   {path: "register", component: RegisterComponent},

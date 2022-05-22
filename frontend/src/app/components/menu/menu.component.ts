@@ -19,12 +19,15 @@ export class MenuComponent implements OnInit {
   constructor(private loginService: LoginService, private http: HttpClient) { }
   
   ngOnInit(): void {
+    localStorage.setItem('ok', 'false');
+    console.log(localStorage.getItem('ok') + "??");
     this.http.get<any>('api/user/loggedInUser/').subscribe(
       response => {
         if(response == null){
           this.isLoggedIn = false, this.isAdmin = false;
           return
         }
+        localStorage.setItem('ok', 'true');
         this.isLoggedIn = true;
         this.user = response;
         if(this.user.role == "ROLE_ADMIN") this.isAdmin = true;
