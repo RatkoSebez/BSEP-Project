@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @RequestMapping(value = "/api/treeView")
 public class TreeViewController {
     private TreeViewService treeViewService;
-    private final Logger logger = Logger.getLogger(UserController.class.getName());
+    private final Logger logger = Logger.getLogger(TreeViewController.class.getName());
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "")

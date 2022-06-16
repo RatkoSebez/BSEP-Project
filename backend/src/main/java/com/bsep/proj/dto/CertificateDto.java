@@ -1,10 +1,7 @@
 package com.bsep.proj.dto;
 
 import com.bsep.proj.model.Certificate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CertificateDto {
     private Long id;
     private Long idOfCertificatePublisher;

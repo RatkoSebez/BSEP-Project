@@ -2,10 +2,7 @@ package com.bsep.proj.dto;
 
 import com.bsep.proj.model.CertificateAuthority;
 import com.bsep.proj.model.LongHolder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CertificateAuthorityDto {
     private Long id;
     private Long ownerId;
