@@ -25,6 +25,7 @@ public class XSSFilter implements Filter {
 //            String paramName = (String)params.nextElement();
 //            System.out.println(paramName + " = " + request.getParameter(paramName));
 //        }
+
         chain.doFilter(request, response);
     }
 

@@ -33,17 +33,16 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
-      # POSTGRES_DB: docker
-      # volumes:
-      #   - type: volume
-      #     source: database-data
-      #     target: /var/lib/postgresql/data
+      POSTGRES_DB: docker
+    volumes:
+      # - ./database-data:/var/lib/postgresql/data
+      - ./backend/create.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
       - 5002:5432
 
 volumes:
   database-data:
-    name: database
+    name: data
 
 networks:
   database:

@@ -5,6 +5,7 @@ import com.bsep.proj.dto.ForgotPasswordDto;
 import com.bsep.proj.dto.UserDto;
 import com.bsep.proj.model.User;
 import com.bsep.proj.repository.UserRepository;
+import com.bsep.proj.service.LoggingService;
 import com.bsep.proj.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 @AllArgsConstructor
 @Controller
@@ -25,10 +28,11 @@ import java.util.List;
 public class UserController {
     private UserService userService;
     private UserRepository userRepository;
-    private AuthenticationManager authenticationManager;
+    private LoggingService loggingService;
 
     @GetMapping(path = "/test")
-    public String test(){
+    public String test() throws IOException {
+        loggingService.test();
         return "test works";
     }
 

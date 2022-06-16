@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ProjApplication implements ApplicationRunner {
 	private final UserRepository userRepository;
-	private final CreateService certificateService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjApplication.class, args);
@@ -49,9 +48,9 @@ public class ProjApplication implements ApplicationRunner {
 	private void accessToFilesTest() throws IOException {
 		File file = new File("test.txt");
 		file.createNewFile();
-		printFilePermissions(file);
+//		printFilePermissions(file);
 		file.setWritable(false);
-		printFilePermissions(file);
+//		printFilePermissions(file);
 	}
 
 	private void printFilePermissions(File file){
