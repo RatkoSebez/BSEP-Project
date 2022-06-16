@@ -1,9 +1,6 @@
 package com.bsep.proj.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.security.PublicKey;
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Certificate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,9 +1,6 @@
 package com.bsep.proj.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +12,7 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 // posto ne znam kako da cuvam List<Long>, morao sam napraviti ovu klasu
 public class LongHolder {
     @Id

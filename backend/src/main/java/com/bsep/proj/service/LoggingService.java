@@ -1,22 +1,21 @@
 package com.bsep.proj.service;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-@Slf4j
+import java.util.logging.Logger;
+
 @Service
 public class LoggingService {
-    Logger logger = LoggerFactory.getLogger(LoggingService.class);
+    // userId will be 0 for endpoints that require no login
+    // data is null if, we know it is GET endpoint
+    public void log(Object obj, Logger logger) {
+        String data = "no data";
+        String userId = "0";
+        Long id = UserService.getLoggedInUserId();
+        if(obj != null) data = obj.toString();
+        if(id != null) userId = id.toString();
 
-    public void test() {
-        log.info("infooo");
-        logger.trace("A TRACE Message");
-        logger.debug("A DEBUG Message");
-        logger.info("An INFO Message");
-        logger.warn("A WARN Message");
-        logger.error("An ERROR Message");
+        logger.info(userId + " " + data);
     }
 }
