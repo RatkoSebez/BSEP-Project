@@ -1,5 +1,6 @@
 package com.bsep.proj;
 
+import com.bsep.proj.controller.TreeViewController;
 import com.bsep.proj.model.User;
 import com.bsep.proj.model.UserRole;
 import com.bsep.proj.repository.UserRepository;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @SpringBootApplication
 @AllArgsConstructor
@@ -43,6 +45,12 @@ public class ProjApplication implements ApplicationRunner {
 		// figure out why this line don't work
 		// certificateService.createCertificate(new CreateCaRequestDto(2l, null));
 		accessToFilesTest();
+
+		// infinite log to fill file memory
+//		Logger logger = Logger.getLogger("infinity");
+//		while(true){
+//			logger.info("infinity");
+//		}
 	}
 
 	private void accessToFilesTest() throws IOException {
