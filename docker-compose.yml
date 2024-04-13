@@ -1,44 +1,44 @@
 version: "3.9"
 
 services:
-  # frontend:
-  #   image: frontend
-  #   build:
-  #     context: .
-  #     dockerfile: frontend/Dockerfile
-  #   ports:
-  #     - 80:80
-  #     # depends_on:
-  #     # - backend
-  #   restart: on-failure
-  #   networks:
-  #     - database
-  backend:
-    image: backend
+  frontend:
+    image: frontend
     build:
       context: .
-      dockerfile: backend/Dockerfile
+      dockerfile: frontend/Dockerfile
     ports:
-      - 8091:8080
-    depends_on:
-      - database
+      - 80:80
+      # depends_on:
+      # - backend
     restart: on-failure
     networks:
       - database
-  database:
-    image: postgres:14.1-alpine
-    restart: always
-    networks:
-      - database
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
-      POSTGRES_DB: docker
-    volumes:
-      # - ./database-data:/var/lib/postgresql/data
-      - ./backend/create.sql:/docker-entrypoint-initdb.d/create_tables.sql
-    ports:
-      - 5002:5432
+  # backend:
+  #   image: backend
+  #   build:
+  #     context: .
+  #     dockerfile: backend/Dockerfile
+  #   ports:
+  #     - 8091:8080
+  #   depends_on:
+  #     - database
+  #   restart: on-failure
+  #   networks:
+  #     - database
+  # database:
+  #   image: postgres:14.1-alpine
+  #   restart: always
+  #   networks:
+  #     - database
+  #   environment:
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: docker
+  #   volumes:
+  #     # - ./database-data:/var/lib/postgresql/data
+  #     - ./backend/create.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  #   ports:
+  #     - 5002:5432
 
 volumes:
   database-data:
